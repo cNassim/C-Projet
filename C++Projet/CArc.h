@@ -19,7 +19,7 @@ class CArc
 		/* Entrée : Rien
 		/* Nécessite : Rien
 		/* Sortie : Rien
-		/* Entraîne : Les attributs de CARC sont initialisé à NULL
+		/* Entraîne : Les attributs de CARC sont initialisés à NULL
 		/************************************************************/
 		CArc();
 		
@@ -35,9 +35,20 @@ class CArc
 		/*
 		/* Nécessite : Rien
 		/* Sortie : Rien
-		/* Entraîne : Les attributs de CARC sont initialisé avec des valeurs donner.
+		/* Entraîne : Les attributs de CARC sont initialisés avec des valeurs donner.
 		/************************************************************/
 		CArc(int iSomDeb, int iSomA, int iIdArc, int iDistance, int iCap, int iPoids);
+
+		/***********************************************************
+		/* CArc
+		/************************************************************
+		/* Entrée : Arc : un objet de la classe CARC
+		/* Nécessite : Rien
+		/* Sortie : Rien
+		/* Entraîne : Les attributs de CARC sont initialisés avec les valeurs de l'objet ARC
+		/************************************************************/
+		CArc(const CArc& Arc);
+
 		
 		/***********************************************************
 		/* CArc
