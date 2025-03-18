@@ -2,16 +2,29 @@
 #include <iostream>
 
 using namespace std;
-
-// Constructeur par défaut
+/***********************************************************
+/* CSommet
+/************************************************************
+/* Entrée : Rien
+/* Nécessite : Rien
+/* Sortie : Rien
+/* Entraîne : Les attributs de CSommet sont initialisés à NULL
+/************************************************************/
 CSommet::CSommet() : uiSOMId(0) {}
 
-// Constructeur de comfort
+/***********************************************************
+/* CSommet
+/************************************************************
+/* Entrée : iId : La valeur avec laquelle iSOMId sera initialisé
+/* Nécessite : Rien
+/* Sortie : Rien
+/* Entraîne : Les attributs de CSommet sont initialisés avec des valeurs données
+/************************************************************/
 CSommet::CSommet(int iId, const vector<CArc*> &partant, const vector<CArc*> &entrant)
     : uiSOMId(iId), ARCPartant(partant), ARCEntrant(entrant) {
 }
 
-// Constructeur de recopie
+
 CSommet::CSommet(const CSommet& Sommet)
     : uiSOMId(Sommet.uiSOMId), ARCPartant(Sommet.ARCPartant), ARCEntrant(Sommet.ARCEntrant) {
 }
