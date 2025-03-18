@@ -6,10 +6,10 @@ CException::CException() {
 CException::CException(unsigned int uiVal) {
 	uiEXCVal = uiVal;
 }
-CException::CException(CException& Exc) {
+CException::CException(const CException& Exc) {
 	uiEXCVal = Exc.EXCGet_Val();
 }
-unsigned int CException::EXCGet_Val() {
+unsigned int CException::EXCGet_Val() const {
 	return uiEXCVal;
 }
 void CException::EXCModifier_Val(unsigned int uiVal) {

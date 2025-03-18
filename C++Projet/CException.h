@@ -36,7 +36,7 @@ class CException
 		/* Sortie : Rien
 		/* Entraîne : Les attributs de CException sont initialisés avec les valeurs de l'objet Exc
 		/************************************************************/
-		CException(CException& Exc);
+		CException(const CException& Exc);
 
 		/***********************************************************
 		/* ~CException
@@ -58,7 +58,7 @@ class CException
 		/* Sortie : La valeur de uiEXCVal
 		/* Entraîne : Rien
 		/************************************************************/
-		unsigned int EXCGet_Val();
+		unsigned int EXCGet_Val() const;
 
 		/***********************************************************
 		/* EXCModifier_Val
