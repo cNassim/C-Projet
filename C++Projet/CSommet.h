@@ -7,7 +7,7 @@ class CSommet
 {
 	//ATTRIBUTS 
     private:
-		int iSOMId;
+		unsigned int uiSOMId;
 		vector<CArc*> ARCPartant;
 		vector<CArc*> ARCEntrant;
 	//METHODES
@@ -60,7 +60,7 @@ class CSommet
 		/* Sortie : La valeur de iSOMId
 		/* Entraîne : Rien
 		/************************************************************/
-		int SOMGet_Id();
+		unsigned int SOMGet_Id();
 
 		/***********************************************************
 		/* SOMAjouterArcPartant
@@ -110,7 +110,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : iSOMId est mis à jour
 		/************************************************************/
-		void SOMSet_Id(int iId);
+		void SOMSet_Id(unsigned int iId);
 
 		/***********************************************************
 		/* SOMModifierArcPartant
@@ -121,7 +121,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Modifie un arc partant dans la liste ARCPartant
 		/************************************************************/
-		void SOMModifierArcPartant(int iIdArc, CArc* ArcPartant);
+		void SOMModifierArcPartant(unsigned int iIdArc, CArc* ArcPartant);
 
 		/***********************************************************
 		/* SOMModifierArcSortant
@@ -132,7 +132,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Modifie un arc sortant dans la liste ARCEntrant
 		/************************************************************/
-		void SOMModifierArcSortant(int iIdArc, CArc* ArcSortant);
+		void SOMModifierArcSortant(unsigned int iIdArc, CArc* ArcSortant);
 
 		/***********************************************************
 		/* SOMSupprimerArcPartant
@@ -142,7 +142,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Supprime un arc partant de la liste ARCPartant
 		/************************************************************/
-		void SOMSupprimerArcPartant(int iIdArc);
+		void SOMSupprimerArcPartant(unsigned int iIdArc);
 
 		/***********************************************************
 		/* SOMSupprimerArcSortant
@@ -152,7 +152,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Supprime un arc sortant de la liste ARCEntrant
 		/************************************************************/
-		void SOMSupprimerArcSortant(int iIdArc);
+		void SOMSupprimerArcSortant(unsigned int iIdArc);
 
 		/***********************************************************
 		/* SOMAfficher

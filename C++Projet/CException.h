@@ -1,4 +1,5 @@
 #pragma once
+#define FAUX 0
 class CException
 {
 	//ATTRIBUTS
@@ -35,7 +36,7 @@ class CException
 		/* Sortie : Rien
 		/* Entraîne : Les attributs de CException sont initialisés avec les valeurs de l'objet Exc
 		/************************************************************/
-		CException(const CException& Exc);
+		CException(CException& Exc);
 
 		/***********************************************************
 		/* ~CException
@@ -45,7 +46,7 @@ class CException
 		/* Sortie : Rien
 		/* Entraîne : L'exception est détruite et libérée
 		/************************************************************/
-		~CException();
+		~CException(){};
 
 		//METHODES
 
