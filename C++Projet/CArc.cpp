@@ -41,3 +41,75 @@ CArc::CArc(const CArc& Arc)
     uiARCCap(Arc.ARCGet_Cap()), uiARCPoids(Arc.ARCGet_Poids()) {
 }
 
+/***********************************************************
+/* ARCGet_SomDeb
+/************************************************************
+/* Entrée : Rien
+/* Nécessite : Rien
+/* Sortie : La valeur de uiARCSomDeb
+/* Entraîne : Rien
+/************************************************************/
+
+unsigned int CArc::ARCGet_SomDeb() const {
+    return uiARCSomDeb;
+}
+
+/***********************************************************
+/* ARCGet_SomA
+/************************************************************
+/* Entrée : Rien
+/* Nécessite : Rien
+/* Sortie : La valeur de uiARCSomA
+/* Entraîne : Rien
+/************************************************************/
+unsigned int CArc::ARCGet_SomA() const {
+    return uiARCSomA;
+}
+
+/***********************************************************
+/* ARCGetPoids
+/************************************************************
+/* Entrée : Rien
+/* Nécessite : Rien
+/* Sortie : La valeur de uiARCPoids
+/* Entraîne : Rien
+/************************************************************/
+unsigned int CArc::ARCGet_Poids() const {
+    return uiARCPoids;
+}
+
+/***********************************************************
+/* ARCGet_IdArc
+/************************************************************
+/* Entrée : Rien
+/* Nécessite : Rien
+/* Sortie : La valeur de uiARCIdArc
+/* Entraîne : Rien
+/************************************************************/
+unsigned int CArc::ARCGet_IdArc() const {
+    return uiARCIdArc;
+}
+
+/***********************************************************
+/* ARCSet_Distance
+/************************************************************
+/* Entrée : iDistance : Nouvelle valeur pour iARCDistance
+/* Nécessite : Rien
+/* Sortie : Rien
+/* Entraîne : iARCDistance est mis à jour
+/************************************************************/
+unsigned int CArc::ARCGet_Distance() const {
+    return uiARCDistance;
+}
+
+/***********************************************************
+/* ARCSet_Cap
+/************************************************************
+/* Entrée : iCap : Nouvelle valeur pour iARCCap
+/* Nécessite : Rien
+/* Sortie : Rien
+/* Entraîne : iARCCap est mis à jour
+/************************************************************/
+unsigned int CArc::ARCGet_Cap() const {
+    return uiARCCap;
+}

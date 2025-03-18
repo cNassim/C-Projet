@@ -58,7 +58,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : L'Arc est detruit et libéré
 		/************************************************************/
-		~CArc();
+		~CArc(){};
 
 		/***********************************************************
 		/* ARCGet_SomDeb
@@ -121,26 +121,6 @@ class CArc
 		unsigned int ARCGet_Poids() const;
 
 		/***********************************************************
-		/* ARCAjouterSomDeb
-		/************************************************************
-		/* Entrée : SommetDeb : Pointeur vers un objet CSommet
-		/* Nécessite : Rien
-		/* Sortie : Rien
-		/* Entraîne : uiARCSomDeb est mis à jour avec l'identifiant du sommet
-		/************************************************************/
-		void ARCAjouterSomDeb(CSommet* SommetDeb);
-
-		/***********************************************************
-		/* ARCAjouterSomA
-		/************************************************************
-		/* Entrée : SommetA : Pointeur vers un objet CSommet
-		/* Nécessite : Rien
-		/* Sortie : Rien
-		/* Entraîne : uiARCSomA est mis à jour avec l'identifiant du sommet
-		/************************************************************/
-		void ARCAjouterSomA(CSommet* SommetA);
-
-		/***********************************************************
 		/* ARCModifierSomDeb
 		/************************************************************
 		/* Entrée : uiIdArc : Identifiant de l'arc
@@ -149,7 +129,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : uiARCSomDeb est mis à jour avec l'identifiant du sommet
 		/************************************************************/
-		void ARCModifierSomDeb(unsigned int uiIdArc, CSommet* SommetDeb);
+		void ARCModifierSomDeb(CSommet* SommetDeb);
 
 		/***********************************************************
 		/* ARCModifierSomA
@@ -160,7 +140,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : uiARCSomA est mis à jour avec l'identifiant du sommet
 		/************************************************************/
-		void ARCModifierSomA(unsigned int uiIdArc, CSommet* SommetA);
+		void ARCModifierSomA(CSommet* SommetA);
 
 		/***********************************************************
 		/* ARCSet_IdArc
