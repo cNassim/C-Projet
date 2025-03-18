@@ -10,7 +10,7 @@ class CSommet
 		int iSOMId;
 		vector<CArc*> ARCPartant;
 		vector<CArc*> ARCEntrant;
-	//METHODES
+
 	public:
 		/***********************************************************
 		/* CSommet
