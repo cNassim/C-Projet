@@ -1,4 +1,5 @@
 #pragma once
+#define FAUX 0
 class CException
 {
 	//ATTRIBUTS
@@ -45,7 +46,7 @@ class CException
 		/* Sortie : Rien
 		/* Entraîne : L'exception est détruite et libérée
 		/************************************************************/
-		~CException();
+		~CException(){};
 
 		//METHODES
 
@@ -57,7 +58,7 @@ class CException
 		/* Sortie : La valeur de uiEXCVal
 		/* Entraîne : Rien
 		/************************************************************/
-		unsigned int EXCGet_Val();
+		unsigned int EXCGet_Val() const;
 
 		/***********************************************************
 		/* EXCModifier_Val
