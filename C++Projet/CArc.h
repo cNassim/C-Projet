@@ -4,12 +4,12 @@ class CArc
 {
 	//ATTRIBUTS
 	private:
-		int iARCSomDeb;
-		int iARCSomA;
-		int iARCIdArc;
-		int iARCDistance;
-		int iARCCap;
-		int iARCPoids;
+		unsigned int iARCSomDeb;
+		unsigned int iARCSomA;
+		unsigned int iARCIdArc;
+		unsigned int iARCDistance;
+		unsigned int iARCCap;
+		unsigned int iARCPoids;
 	
 	//METHODES
 	public:
@@ -37,7 +37,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : Les attributs de CARC sont initialisés avec des valeurs donner.
 		/************************************************************/
-		CArc(int iSomDeb, int iSomA, int iIdArc, int iDistance, int iCap, int iPoids);
+		CArc(unsigned int iSomDeb, unsigned int iSomA, unsigned int iIdArc, unsigned int iDistance, unsigned int iCap, unsigned int iPoids);
 
 		/***********************************************************
 		/* CArc
@@ -68,7 +68,7 @@ class CArc
 		/* Sortie : La valeur de iARCSomDeb
 		/* Entraîne : Rien
 		/************************************************************/
-		int ARCGet_SomDeb();
+		unsigned int ARCGet_SomDeb();
 
 		/***********************************************************
 		/* ARCGet_SomA
@@ -78,7 +78,7 @@ class CArc
 		/* Sortie : La valeur de iARCSomA
 		/* Entraîne : Rien
 		/************************************************************/
-		int ARCGet_SomA();
+		unsigned int ARCGet_SomA();
 
 		/***********************************************************
 		/* ARCGet_IdArc
@@ -88,7 +88,7 @@ class CArc
 		/* Sortie : La valeur de iARCIdArc
 		/* Entraîne : Rien
 		/************************************************************/
-		int ARCGet_IdArc();
+		unsigned int ARCGet_IdArc();
 
 		/***********************************************************
 		/* ARCGet_Distance
@@ -98,7 +98,7 @@ class CArc
 		/* Sortie : La valeur de iARCDistance
 		/* Entraîne : Rien
 		/************************************************************/
-		int ARCGet_Distance();
+		unsigned int ARCGet_Distance();
 
 		/***********************************************************
 		/* ARCGet_Cap
@@ -108,7 +108,7 @@ class CArc
 		/* Sortie : La valeur de iARCCap
 		/* Entraîne : Rien
 		/************************************************************/
-		int ARCGet_Cap();
+		unsigned int ARCGet_Cap();
 
 		/***********************************************************
 		/* ARCGetPoids
@@ -118,7 +118,7 @@ class CArc
 		/* Sortie : La valeur de iARCPoids
 		/* Entraîne : Rien
 		/************************************************************/
-		int ARCGetPoids();
+		unsigned int ARCGetPoids();
 
 		/***********************************************************
 		/* ARCAjouterSomDeb
@@ -149,7 +149,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : iARCSomDeb est mis à jour avec l'identifiant du sommet
 		/************************************************************/
-		void ARCModifierSomDeb(int iIdArc, CSommet* SommetDeb);
+		void ARCModifierSomDeb(unsigned int iIdArc, CSommet* SommetDeb);
 
 		/***********************************************************
 		/* ARCModifierSomA
@@ -160,7 +160,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : iARCSomA est mis à jour avec l'identifiant du sommet
 		/************************************************************/
-		void ARCModifierSomA(int iIdArc, CSommet* SommetA);
+		void ARCModifierSomA(unsigned int iIdArc, CSommet* SommetA);
 
 		/***********************************************************
 		/* ARCSet_IdArc
@@ -170,7 +170,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : iARCIdArc est mis à jour
 		/************************************************************/
-		void ARCSet_IdArc(int iIdArc);
+		void ARCSet_IdArc(unsigned int iIdArc);
 
 		/***********************************************************
 		/* ARCSet_Distance
@@ -180,7 +180,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : iARCDistance est mis à jour
 		/************************************************************/
-		void ARCSet_Distance(int iDistance);
+		void ARCSet_Distance(unsigned int iDistance);
 
 		/***********************************************************
 		/* ARCSet_Cap
@@ -190,7 +190,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : iARCCap est mis à jour
 		/************************************************************/
-		void ARCSet_Cap(int iCap);
+		void ARCSet_Cap(unsigned int iCap);
 
 		/***********************************************************
 		/* ARCSetPoids
@@ -200,7 +200,7 @@ class CArc
 		/* Sortie : Rien
 		/* Entraîne : iARCPoids est mis à jour
 		/************************************************************/
-		void ARCSetPoids(int iPoids);
+		void ARCSetPoids(unsigned int iPoids);
 
 		/***********************************************************
 		/* ARCAfficher
