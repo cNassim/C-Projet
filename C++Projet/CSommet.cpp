@@ -1,8 +1,8 @@
 #include "CSommet.h"
 #include <iostream>
 
-
 using namespace std;
+
 /***********************************************************
 /* CSommet
 /************************************************************
@@ -11,18 +11,20 @@ using namespace std;
 /* Sortie : Rien
 /* Entraîne : Les attributs de CSommet sont initialisés à NULL
 /************************************************************/
-CSommet::CSommet() : uiSOMId(0) {}
+template <typename T>
+CSommet<T>::CSommet() : uiSOMId(0) {}
 
 /***********************************************************
 /* CSommet
 /************************************************************
-/* Entrée : iId : La valeur avec laquelle iSOMId sera initialisé
+/* Entrée : uiId : La valeur avec laquelle iSOMId sera initialisé
 /* Nécessite : Rien
 /* Sortie : Rien
 /* Entraîne : Les attributs de CSommet sont initialisés avec des valeurs données
 /************************************************************/
-CSommet::CSommet(int iId, const vector<CArc*> partant, const vector<CArc*> entrant)
-    : uiSOMId(iId), ARCPartant(partant), ARCEntrant(entrant) {
+template <typename T>
+CSommet<T>::CSommet(unsigned int uiId, const vector<CArc<T>*> pPartant, const vector<CArc<T>*> pEntrant)
+    : uiSOMId(uiId), ARCPartant(pPartant), ARCEntrant(pEntrant) {
 }
 
 /***********************************************************
@@ -33,7 +35,8 @@ CSommet::CSommet(int iId, const vector<CArc*> partant, const vector<CArc*> entra
 /* Sortie : Rien
 /* Entraîne : Les attributs de CSommet sont initialisés avec les valeurs de l'objet Sommet
 /************************************************************/
-CSommet::CSommet(const CSommet& Sommet)
+template <typename T>
+CSommet<T>::CSommet(const CSommet<T>& Sommet)
     : uiSOMId(Sommet.uiSOMId), ARCPartant(Sommet.ARCPartant), ARCEntrant(Sommet.ARCEntrant) {
 }
 
@@ -45,7 +48,8 @@ CSommet::CSommet(const CSommet& Sommet)
 /* Sortie : Rien
 /* Entraîne : Le sommet est détruit et libéré
 /************************************************************/
-CSommet::~CSommet() {
+template <typename T>
+CSommet<T>::~CSommet() {
     ARCPartant.clear();
     ARCEntrant.clear();
 }
@@ -58,7 +62,8 @@ CSommet::~CSommet() {
 /* Sortie : La valeur de iSOMId
 /* Entraîne : Rien
 /************************************************************/
-unsigned int CSommet::SOMGet_Id() {
+template <typename T>
+unsigned int CSommet<T>::SOMGet_Id() {
     return uiSOMId;
 }
 
@@ -70,8 +75,9 @@ unsigned int CSommet::SOMGet_Id() {
 /* Sortie : Rien
 /* Entraîne : iSOMId est mis à jour
 /************************************************************/
-void CSommet::SOMSet_Id(unsigned int iId) {
-    uiSOMId = iId;
+template <typename T>
+void CSommet<T>::SOMSet_Id(unsigned int uiId) {
+    uiSOMId = uiId;
 }
 
 /***********************************************************
@@ -82,7 +88,8 @@ void CSommet::SOMSet_Id(unsigned int iId) {
 /* Sortie : Rien
 /* Entraîne : Ajoute un arc partant à la liste ARCPartant
 /************************************************************/
-void CSommet::SOMAjouterArcPartant(CArc* ArcPartant) {
+template <typename T>
+void CSommet<T>::SOMAjouterArcPartant(CArc<T>* ArcPartant) {
     ARCPartant.push_back(ArcPartant);
 }
 
@@ -94,7 +101,8 @@ void CSommet::SOMAjouterArcPartant(CArc* ArcPartant) {
 /* Sortie : Rien
 /* Entraîne : Ajoute un arc sortant à la liste ARCEntrant
 /************************************************************/
-void CSommet::SOMAjouterArcSortant(CArc* ArcSortant) {
+template <typename T>
+void CSommet<T>::SOMAjouterArcSortant(CArc<T>* ArcSortant) {
     ARCEntrant.push_back(ArcSortant);
 }
 
@@ -106,7 +114,8 @@ void CSommet::SOMAjouterArcSortant(CArc* ArcSortant) {
 /* Sortie : La liste des arcs partants
 /* Entraîne : Rien
 /************************************************************/
-vector<CArc*>CSommet::SOMGet_ARCPartant() {
+template <typename T>
+vector<CArc<T>*> CSommet<T>::SOMGet_ARCPartant() {
     return ARCPartant;
 }
 
@@ -118,22 +127,24 @@ vector<CArc*>CSommet::SOMGet_ARCPartant() {
 /* Sortie : La liste des arcs sortants
 /* Entraîne : Rien
 /************************************************************/
-vector<CArc*>CSommet::SOMGet_ARCSortant() {
+template <typename T>
+vector<CArc<T>*> CSommet<T>::SOMGet_ARCSortant() {
     return ARCEntrant;
 }
 
 /***********************************************************
 /* SOMModifierArcPartant
 /************************************************************
-/* Entrée : iIdArc : Identifiant de l'arc
+/* Entrée : uiIdArc : Identifiant de l'arc
 /*          ArcPartant : Pointeur vers un objet CArc
 /* Nécessite : Rien
 /* Sortie : Rien
 /* Entraîne : Modifie un arc partant dans la liste ARCPartant
 /************************************************************/
-void CSommet::SOMModifierArcPartant(unsigned int iIdArc, CArc* ArcPartant) {
+template <typename T>
+void CSommet<T>::SOMModifierArcPartant(unsigned int uiIdArc, CArc<T>* ArcPartant) {
     for (auto& arc : ARCPartant) {
-        if (arc->ARCGet_IdArc() == iIdArc) {
+        if (arc->ARCGet_IdArc() == uiIdArc) {
             arc = ArcPartant;
             return;
         }
@@ -143,15 +154,16 @@ void CSommet::SOMModifierArcPartant(unsigned int iIdArc, CArc* ArcPartant) {
 /***********************************************************
 /* SOMModifierArcSortant
 /************************************************************
-/* Entrée : iIdArc : Identifiant de l'arc
+/* Entrée : uiIdArc : Identifiant de l'arc
 /*          ArcSortant : Pointeur vers un objet CArc
 /* Nécessite : Rien
 /* Sortie : Rien
 /* Entraîne : Modifie un arc sortant dans la liste ARCEntrant
 /************************************************************/
-void CSommet::SOMModifierArcEntrant(unsigned int iIdArc, CArc* ArcEntrant) {
+template <typename T>
+void CSommet<T>::SOMModifierArcEntrant(unsigned int uiIdArc, CArc<T>* ArcEntrant) {
     for (auto& arc : ARCEntrant) {
-        if (arc->ARCGet_IdArc() == iIdArc) {
+        if (arc->ARCGet_IdArc() == uiIdArc) {
             arc = ArcEntrant;
             return;
         }
@@ -161,31 +173,33 @@ void CSommet::SOMModifierArcEntrant(unsigned int iIdArc, CArc* ArcEntrant) {
 /***********************************************************
 /* SOMSupprimerArcPartant
 /************************************************************
-/* Entrée : iIdArc : Identifiant de l'arc
+/* Entrée : uiIdArc : Identifiant de l'arc
 /* Nécessite : Rien
 /* Sortie : Rien
 /* Entraîne : Supprime un arc partant de la liste ARCPartant
 /************************************************************/
-void CSommet::SOMSupprimerArcPartant(unsigned int iIdArc) {
+template <typename T>
+void CSommet<T>::SOMSupprimerArcPartant(unsigned int uiIdArc) {
     for (auto it = ARCPartant.begin(); it != ARCPartant.end(); ++it) {
-        if ((*it)->ARCGet_IdArc() == iIdArc) {
+        if ((*it)->ARCGet_IdArc() == uiIdArc) {
             ARCPartant.erase(it);
             return;
         }
     }
-    }
+}
 
 /***********************************************************
 /* SOMSupprimerArcSortant
 /************************************************************
-/* Entrée : iIdArc : Identifiant de l'arc
+/* Entrée : uiIdArc : Identifiant de l'arc
 /* Nécessite : Rien
 /* Sortie : Rien
 /* Entraîne : Supprime un arc sortant de la liste ARCEntrant
 /************************************************************/
-void CSommet::SOMSupprimerArcEntrant(unsigned int iIdArc) {
+template <typename T>
+void CSommet<T>::SOMSupprimerArcEntrant(unsigned int uiIdArc) {
     for (auto it = ARCEntrant.begin(); it != ARCEntrant.end(); ++it) {
-        if ((*it)->ARCGet_IdArc() == iIdArc) {
+        if ((*it)->ARCGet_IdArc() == uiIdArc) {
             ARCEntrant.erase(it);
             return;
         }
@@ -200,6 +214,16 @@ void CSommet::SOMSupprimerArcEntrant(unsigned int iIdArc) {
 /* Sortie : Rien
 /* Entraîne : Affiche les informations du sommet
 /************************************************************/
-void CSommet::SOMAfficher() {}
-
+template <typename T>
+void CSommet<T>::SOMAfficher() {
+    cout << "Sommet " << uiSOMId << endl;
+    cout << "Arcs partants: " << endl;
+    for (const auto& arc : ARCPartant) {
+        arc->ARCAfficher();
+    }
+    cout << "Arcs entrants: " << endl;
+    for (const auto& arc : ARCEntrant) {
+        arc->ARCAfficher();
+    }
+}
 

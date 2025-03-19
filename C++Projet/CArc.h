@@ -15,7 +15,7 @@ class CArc
 	//METHODES
 	public:
 		CArc();
-		CArc(unsigned int uiSomDeb,unsigned int uiSomA,unsigned int uiIdArc,T tDistance,T tCap,T tPoids);
+		CArc(CSommet* SommetDeb,CSommet* SommetA,unsigned int uiIdArc,T tDistance,T tCap,T tPoids);
 		CArc(const CArc<T>&Arc);
 		~CArc(){};
 		unsigned int ARCGet_SomDeb() const ;

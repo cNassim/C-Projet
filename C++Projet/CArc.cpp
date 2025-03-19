@@ -26,8 +26,8 @@ CArc<T>::CArc() : uiARCSomDeb(0), uiARCSomA(0), uiARCIdArc(0), uiARCDistance(0),
 /* Entraîne : Les attributs de CARC sont initialisés avec des valeurs donner.
 /************************************************************/
 template <typename T>
-CArc<T>::CArc(unsigned int uiSomDeb, unsigned int uiSomA, unsigned int uiIdArc, T tDistance,T tCap,T tPoids)
-	:uiARCSomDeb(uiSomDeb), uiARCSomA(uiSomA), uiARCIdArc(uiIdArc), tARCDistance(tDistance), tARCCap(tCap), tARCPoids(tPoids) {}
+CArc<T>::CArc(CSommet<T>* SommetDeb , CSommet<T>* SommetA, unsigned int uiIdArc, T tDistance,T tCap,T tPoids)
+	:uiARCSomDeb(SommetDeb->SOMGet_Id()), uiARCSomA(SommetA->SOMGet_Id()), uiARCIdArc(uiIdArc), tARCDistance(tDistance), tARCCap(tCap), tARCPoids(tPoids) {}
 
 
 /***********************************************************
@@ -184,7 +184,7 @@ void CArc<T>::ARCSetPoids(T tPoids) {
 /* Entraîne : uiARCSomDeb est mis à jour avec l'identifiant du sommet
 /************************************************************/
 template <typename T>
-void CArc<T>::ARCModifierSomDeb(CSommet* SommetDeb) {
+void CArc<T>::ARCModifierSomDeb(CSommet<T>* SommetDeb) {
     if (SommetDeb) {
         uiARCSomDeb = SommetDeb->SOMGet_Id();
     }
@@ -199,7 +199,7 @@ void CArc<T>::ARCModifierSomDeb(CSommet* SommetDeb) {
 /* Entraîne : uiARCSomA est mis à jour avec l'identifiant du sommet
 /************************************************************/
 template <typename T>
-void CArc<T>::ARCModifierSomA(CSommet* SommetA) {
+void CArc<T>::ARCModifierSomA(CSommet<T>* SommetA) {
     if (SommetA) {
         uiARCSomA = SommetA->SOMGet_Id();
     }
