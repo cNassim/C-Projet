@@ -121,7 +121,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Modifie un arc partant dans la liste ARCPartant
 		/************************************************************/
-		void SOMModifierArcPartant(unsigned int iIdArc, CArc* ArcPartant);
+		void SOMModifierArcPartant(unsigned int iIdArc, CArc<T>* ArcPartant);
 
 		/***********************************************************
 		/* SOMModifierArcSortant
@@ -132,7 +132,8 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Modifie un arc sortant dans la liste ARCEntrant
 		/************************************************************/
-		void SOMModifierArcEntrant(unsigned int iIdArc, CArc* ArcEntrant);
+		template <typename T>
+		void SOMModifierArcEntrant(unsigned int iIdArc, CArc<T>* ArcEntrant);
 
 		/***********************************************************
 		/* SOMSupprimerArcPartant
