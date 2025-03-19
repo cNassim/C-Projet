@@ -30,7 +30,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Les attributs de CSommet sont initialisés avec des valeurs données
 		/************************************************************/
-		CSommet(int iId);
+		CSommet(int iId, const std::vector<CArc*> partant, const std::vector<CArc*> entrant);
 
 		/***********************************************************
 		/* CSommet
@@ -132,7 +132,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Modifie un arc sortant dans la liste ARCEntrant
 		/************************************************************/
-		void SOMModifierArcSortant(unsigned int iIdArc, CArc* ArcSortant);
+		void SOMModifierArcEntrant(unsigned int iIdArc, CArc* ArcEntrant);
 
 		/***********************************************************
 		/* SOMSupprimerArcPartant
@@ -152,7 +152,7 @@ class CSommet
 		/* Sortie : Rien
 		/* Entraîne : Supprime un arc sortant de la liste ARCEntrant
 		/************************************************************/
-		void SOMSupprimerArcSortant(unsigned int iIdArc);
+		void SOMSupprimerArcEntrant(unsigned int iIdArc);
 
 		/***********************************************************
 		/* SOMAfficher
