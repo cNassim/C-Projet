@@ -1,5 +1,6 @@
 #pragma once
 #define FAUX 0
+#include <iostream>
 class CException
 {
 	//ATTRIBUTS

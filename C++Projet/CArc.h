@@ -1,5 +1,8 @@
 #pragma once
+#include <iostream>
 #include "CSommet.h"
+template <typename T>
+class CSommet;
 template <typename T>
 class CArc
 {
@@ -15,20 +18,20 @@ class CArc
 	//METHODES
 	public:
 		CArc();
-		CArc(CSommet* SommetDeb,CSommet* SommetA,unsigned int uiIdArc,T tDistance,T tCap,T tPoids);
+		CArc(CSommet<T>* SommetDeb,CSommet<T>* SommetA,unsigned int uiIdArc,T tDistance,T tCap,T tPoids);
 		CArc(const CArc<T>&Arc);
-		~CArc(){};
+		~CArc()=default;
 		unsigned int ARCGet_SomDeb() const ;
 		unsigned int ARCGet_SomA() const;
 		unsigned int ARCGet_IdArc() const;
 		T ARCGet_Distance() const;
 		T ARCGet_Cap() const ;
 		T ARCGet_Poids() const;
-		void ARCModifierSomDeb(CSommet* SommetDeb);
-		void ARCModifierSomA(CSommet* SommetA);
+		void ARCModifierSomDeb(CSommet<T>* SommetDeb);
+		void ARCModifierSomA(CSommet<T>* SommetA);
 		void ARCSet_IdArc(unsigned int uiIdArc);
 		void ARCSet_Distance(T tDistance);
 		void ARCSet_Cap(T tCap);
-		void ARCSetPoids(T tPoids);
 		void ARCAfficher();
+		void ARCSetPoids(T tPoids);
 };

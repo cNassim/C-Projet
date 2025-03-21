@@ -12,7 +12,7 @@ using namespace std;
 /* Entraîne : Les attributs de CSommet sont initialisés à NULL
 /************************************************************/
 template <typename T>
-CSommet<T>::CSommet() : uiSOMId(0) {}
+inline CSommet<T>::CSommet() : uiSOMId(0) {}
 
 /***********************************************************
 /* CSommet
@@ -23,7 +23,7 @@ CSommet<T>::CSommet() : uiSOMId(0) {}
 /* Entraîne : Les attributs de CSommet sont initialisés avec des valeurs données
 /************************************************************/
 template <typename T>
-CSommet<T>::CSommet(unsigned int uiId, const vector<CArc<T>*> pPartant, const vector<CArc<T>*> pEntrant)
+inline CSommet<T>::CSommet(unsigned int uiId, const vector<CArc<T>*> pPartant, const vector<CArc<T>*> pEntrant)
     : uiSOMId(uiId), ARCPartant(pPartant), ARCEntrant(pEntrant) {
 }
 
@@ -36,8 +36,8 @@ CSommet<T>::CSommet(unsigned int uiId, const vector<CArc<T>*> pPartant, const ve
 /* Entraîne : Les attributs de CSommet sont initialisés avec les valeurs de l'objet Sommet
 /************************************************************/
 template <typename T>
-CSommet<T>::CSommet(const CSommet<T>& Sommet)
-    : uiSOMId(Sommet.uiSOMId), ARCPartant(Sommet.ARCPartant), ARCEntrant(Sommet.ARCEntrant) {
+inline CSommet<T>::CSommet(const CSommet<T>& Sommet)
+    : uiSOMId(Sommet.SOMGet_Id()), ARCPartant(Sommet.SOMGet_ARCPartant()), ARCEntrant(Sommet.SOMGet_ARCEntrant()) {
 }
 
 /***********************************************************
@@ -49,7 +49,7 @@ CSommet<T>::CSommet(const CSommet<T>& Sommet)
 /* Entraîne : Le sommet est détruit et libéré
 /************************************************************/
 template <typename T>
-CSommet<T>::~CSommet() {
+inline CSommet<T>::~CSommet() {
     ARCPartant.clear();
     ARCEntrant.clear();
 }
@@ -63,7 +63,7 @@ CSommet<T>::~CSommet() {
 /* Entraîne : Rien
 /************************************************************/
 template <typename T>
-unsigned int CSommet<T>::SOMGet_Id() {
+inline unsigned int CSommet<T>::SOMGet_Id() const {
     return uiSOMId;
 }
 
@@ -76,7 +76,7 @@ unsigned int CSommet<T>::SOMGet_Id() {
 /* Entraîne : iSOMId est mis à jour
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMSet_Id(unsigned int uiId) {
+inline void CSommet<T>::SOMSet_Id(unsigned int uiId) {
     uiSOMId = uiId;
 }
 
@@ -89,8 +89,8 @@ void CSommet<T>::SOMSet_Id(unsigned int uiId) {
 /* Entraîne : Ajoute un arc partant à la liste ARCPartant
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMAjouterArcPartant(CArc<T>* ArcPartant) {
-    ARCPartant.push_back(ArcPartant);
+inline void CSommet<T>::SOMAjouterArcPartant(CArc<T>* arcPartant) {
+    ARCPartant.push_back(arcPartant);
 }
 
 /***********************************************************
@@ -102,8 +102,8 @@ void CSommet<T>::SOMAjouterArcPartant(CArc<T>* ArcPartant) {
 /* Entraîne : Ajoute un arc sortant à la liste ARCEntrant
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMAjouterArcSortant(CArc<T>* ArcSortant) {
-    ARCEntrant.push_back(ArcSortant);
+inline void CSommet<T>::SOMAjouterArcEntrant(CArc<T>* arcEntrant) {
+    ARCEntrant.push_back(arcEntrant);
 }
 
 /***********************************************************
@@ -115,7 +115,7 @@ void CSommet<T>::SOMAjouterArcSortant(CArc<T>* ArcSortant) {
 /* Entraîne : Rien
 /************************************************************/
 template <typename T>
-vector<CArc<T>*> CSommet<T>::SOMGet_ARCPartant() {
+inline vector<CArc<T>*> CSommet<T>::SOMGet_ARCPartant() const {
     return ARCPartant;
 }
 
@@ -128,7 +128,7 @@ vector<CArc<T>*> CSommet<T>::SOMGet_ARCPartant() {
 /* Entraîne : Rien
 /************************************************************/
 template <typename T>
-vector<CArc<T>*> CSommet<T>::SOMGet_ARCSortant() {
+inline vector<CArc<T>*> CSommet<T>::SOMGet_ARCEntrant() const {
     return ARCEntrant;
 }
 
@@ -142,7 +142,7 @@ vector<CArc<T>*> CSommet<T>::SOMGet_ARCSortant() {
 /* Entraîne : Modifie un arc partant dans la liste ARCPartant
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMModifierArcPartant(unsigned int uiIdArc, CArc<T>* ArcPartant) {
+inline void CSommet<T>::SOMModifierArcPartant(unsigned int uiIdArc, CArc<T>* ArcPartant) {
     for (auto& arc : ARCPartant) {
         if (arc->ARCGet_IdArc() == uiIdArc) {
             arc = ArcPartant;
@@ -161,7 +161,7 @@ void CSommet<T>::SOMModifierArcPartant(unsigned int uiIdArc, CArc<T>* ArcPartant
 /* Entraîne : Modifie un arc sortant dans la liste ARCEntrant
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMModifierArcEntrant(unsigned int uiIdArc, CArc<T>* ArcEntrant) {
+inline void CSommet<T>::SOMModifierArcEntrant(unsigned int uiIdArc, CArc<T>* ArcEntrant) {
     for (auto& arc : ARCEntrant) {
         if (arc->ARCGet_IdArc() == uiIdArc) {
             arc = ArcEntrant;
@@ -179,7 +179,7 @@ void CSommet<T>::SOMModifierArcEntrant(unsigned int uiIdArc, CArc<T>* ArcEntrant
 /* Entraîne : Supprime un arc partant de la liste ARCPartant
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMSupprimerArcPartant(unsigned int uiIdArc) {
+inline void CSommet<T>::SOMSupprimerArcPartant(unsigned int uiIdArc) {
     for (auto it = ARCPartant.begin(); it != ARCPartant.end(); ++it) {
         if ((*it)->ARCGet_IdArc() == uiIdArc) {
             ARCPartant.erase(it);
@@ -197,7 +197,7 @@ void CSommet<T>::SOMSupprimerArcPartant(unsigned int uiIdArc) {
 /* Entraîne : Supprime un arc sortant de la liste ARCEntrant
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMSupprimerArcEntrant(unsigned int uiIdArc) {
+inline void CSommet<T>::SOMSupprimerArcEntrant(unsigned int uiIdArc) {
     for (auto it = ARCEntrant.begin(); it != ARCEntrant.end(); ++it) {
         if ((*it)->ARCGet_IdArc() == uiIdArc) {
             ARCEntrant.erase(it);
@@ -215,7 +215,7 @@ void CSommet<T>::SOMSupprimerArcEntrant(unsigned int uiIdArc) {
 /* Entraîne : Affiche les informations du sommet
 /************************************************************/
 template <typename T>
-void CSommet<T>::SOMAfficher() {
+inline void CSommet<T>::SOMAfficher() {
     cout << "Sommet " << uiSOMId << endl;
     cout << "Arcs partants: " << endl;
     for (const auto& arc : ARCPartant) {
@@ -226,4 +226,10 @@ void CSommet<T>::SOMAfficher() {
         arc->ARCAfficher();
     }
 }
+
+// Instanciation des templates pour les types utilisés
+template class CSommet<int>;
+template class CSommet<float>;
+template class CSommet<double>;
+
 
