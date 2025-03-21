@@ -215,9 +215,9 @@ inline void CArc<T>::ARCModifierSomA(CSommet<T>* SommetA) {
 /************************************************************/
 template <typename T>
 inline void CArc<T>::ARCAfficher() {
-    cout << "Arc ID: " << uiARCIdArc << " | Sommet Départ: " << uiARCSomDeb
-        << " | Sommet Arrivée: " << uiARCSomA << " | Distance: " << tARCDistance
-        << " | Capacité: " << tARCCap << " | Poids: " << tARCPoids << endl;
+    cout << "Arc ID: " << uiARCIdArc << " | Sommet Depart: " << uiARCSomDeb
+        << " | Sommet Arrivee: " << uiARCSomA << " | Distance: " << tARCDistance
+        << " | Capacite: " << tARCCap << " | Poids: " << tARCPoids << endl;
 }
 
 // Instanciation des templates pour les types utilisés
