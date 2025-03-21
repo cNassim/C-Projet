@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "CSommet.h"
+#include "CException.h"
 template <typename T>
 class CSommet;
 template <typename T>

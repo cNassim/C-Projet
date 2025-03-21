@@ -1,5 +1,6 @@
 #include "CArc.h"
 #include "CSommet.h"
+#include "CException.h"
 
 /***********************************************************
 /* CArc
@@ -28,7 +29,14 @@ inline CArc<T>::CArc() : uiARCSomDeb(0), uiARCSomA(0), uiARCIdArc(0), tARCDistan
 /************************************************************/
 template <typename T>
 inline CArc<T>::CArc(CSommet<T>* SommetDeb , CSommet<T>* SommetA, unsigned int uiIdArc, T tDistance,T tCap,T tPoids)
-	:uiARCSomDeb(SommetDeb->SOMGet_Id()), uiARCSomA(SommetA->SOMGet_Id()), uiARCIdArc(uiIdArc), tARCDistance(tDistance), tARCCap(tCap), tARCPoids(tPoids) {}
+	:uiARCSomDeb(SommetDeb->SOMGet_Id()), uiARCSomA(SommetA->SOMGet_Id()), uiARCIdArc(uiIdArc), tARCDistance(tDistance), tARCCap(tCap), tARCPoids(tPoids) {
+    if (SommetDeb) {
+        SommetDeb->SOMAjouterArcPartant(this);
+    }
+    if(SommetA){
+    SommetA->SOMAjouterArcEntrant(this);
+    }
+}
 
 
 /***********************************************************
