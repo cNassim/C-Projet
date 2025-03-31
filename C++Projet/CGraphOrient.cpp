@@ -6,54 +6,56 @@
 
 using namespace std;
 
-template <typename T>
-inline CGraphOrient<T>::CGraphOrient(): {}
 
-template <typename T>
-CGraphOrient<T>::CGraphOrient(const vector<CSommet<T>*> sommet, const vector<CArc<T>*> arc)
-    : SOM(sommet), ARC(arc) {
+template<typename T>
+CGraphOrient<T>::CGraphOrient() : GRASom(), GRAArc() {
 }
 
 template <typename T>
-inline CGraphOrient<T>::CGraphOrient(const CGraphOrient& GraphOrient) : SOM(GraphOrient.CGraphOGET_Sommet()), ARC(GraphOrient.CGraphOGET_Arc()) {
+CGraphOrient<T>::CGraphOrient(const vector<CSommet<T>*> sommet, const vector<CArc<T>*> arc)
+    : GRASom(sommet), GRAArc(arc) {
+}
+
+template <typename T>
+inline CGraphOrient<T>::CGraphOrient(const CGraphOrient& GraphOrient) : GRASom(GraphOrient.CGraphOGET_Sommet()), GRAArc(GraphOrient.CGraphOGET_Arc()) {
 }
 
 template <typename T>
 inline CGraphOrient<T>::~CGraphOrient() {
-    SOM.clear();
-    ARC.clear();
+    GRASom.clear();
+    GRAArc.clear();
 }
 
 
 template <typename T>
 void CGraphOrient<T>::CGraphOAjouterSommet(CSommet<T>* Som) {
     if (Som) {
-        SOM.push_back(Som);
+        GRASom.push_back(Som);
     }
 }
 
 template <typename T>
 void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
     if (Arc) {
-        ARC.push_back(Arc);
+        GRAArc.push_back(Arc);
     }
 }
 
 template <typename T>
 inline vector<CSommet<T>*> CGraphOrient<T>::CGraphOGET_Sommet() const {
-    return SOM;
+    return GRASom;
 }
 
 
 template <typename T>
 inline vector<CArc<T>*> CGraphOrient<T>::CGraphOGET_Arc() const {
-    return ARC;
+    return GRAArc;
 }
 
 
 template <typename T>
 void CGraphOrient<T>::CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som) {
-    for (auto& sommet : SOM) {
+    for (auto& sommet : GRASom) {
         if (sommet->SOMGet_Id() == uiIdsom) {
             sommet = Som;
             return;
@@ -63,14 +65,14 @@ void CGraphOrient<T>::CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som
 
 template <typename T>
 void CGraphOrient<T>::CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc) {
-    for (auto& arc : ARC) {
+    for (auto& arc : GRAArc) {
         if (arc->ARCGet_IdArc() == uiIdarc) {
             arc = Arc;
             return;
         }
     }
 }
-
+/*
 template <typename T>
 void CGraphOrient<T>::CGraphSupprimerSommet(unsigned int uiIdsom) {
     SOM.erase(remove_if(SOM.begin(), SOM.end(),
@@ -84,15 +86,15 @@ void CGraphOrient<T>::CGraphSupprimerArc(unsigned int uiIdarc) {
         [uiIdarc](CArc<T>* arc) { return arc->ARCGet_IdArc() == uiIdarc; }),
         ARC.end());
 }
-
+*/
 template <typename T>
 void CGraphOrient<T>::CGraphOAfficher() {
     cout << "Sommets" << endl;
-    for (const auto& sommet : SOM) {
+    for (const auto& sommet : GRASom) {
         sommet->SOMAfficher();
     }
     cout << "\nArcs" << endl;
-    for (const auto& arc : ARC) {
+    for (const auto& arc : GRAArc) {
         arc->ARCAfficher();
     }
 }

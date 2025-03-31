@@ -10,8 +10,8 @@ class CGraphOrient
 {
 	//ATTRIBUTS
 private:
-	vector<CSommet<T>*> SOM;
-	vector<<CArc<T>*> ARC;
+	vector<CSommet<T>*> GRASom;
+	vector<CArc<T>*> GRAArc;
 
 	//METHODES
 public:
@@ -21,12 +21,12 @@ public:
 	~CGraphOrient();
 	void CGraphOAjouterSommet(CSommet<T>* Som);
 	void CGraphOAjouterArc(CArc<T>* Arc);
-	vector<CSommet<T>*> CGraphOrient<T>::CGraphOGET_Sommet();
-	vector<CArc<T>*> CGraphOrient<T>::CGraphOGET_Arc()
+	vector<CSommet<T>*>CGraphOGET_Sommet() const;
+	vector<CArc<T>*> CGraphOGET_Arc() const;
 	void CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som);
 	void CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc);
-	void CGraphSupprimerSommet(unsigned int uiIdsom);
-	void CGraphSupprimerArc(unsigned int uiIdarc);
+	/*void CGraphSupprimerSommet(unsigned int uiIdsom);
+	void CGraphSupprimerArc(unsigned int uiIdarc);*/
 	void CGraphOAfficher();
 
 };
