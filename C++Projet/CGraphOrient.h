@@ -25,8 +25,8 @@ public:
 	vector<CArc<T>*> CGraphOGET_Arc() const;
 	void CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som);
 	void CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc);
-	/*void CGraphSupprimerSommet(unsigned int uiIdsom);
-	void CGraphSupprimerArc(unsigned int uiIdarc);*/
+	void CGraphSupprimerSommet(unsigned int uiIdsom);
+	void CGraphSupprimerArc(unsigned int uiIdarc);
 	void CGraphOAfficher();
 
 };

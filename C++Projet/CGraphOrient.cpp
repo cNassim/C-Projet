@@ -72,21 +72,27 @@ void CGraphOrient<T>::CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc) {
         }
     }
 }
-/*
+
 template <typename T>
 void CGraphOrient<T>::CGraphSupprimerSommet(unsigned int uiIdsom) {
-    SOM.erase(remove_if(SOM.begin(), SOM.end(),
-        [uiIdsom](CSommet<T>* sommet) { return sommet->SOMGet_Id() == uiIdsom; }),
-        SOM.end());
+    for (auto it = GRASom.begin(); it != GRASom.end(); ++it) {
+        if ((*it)->SOMGet_Id() == uiIdsom) {
+            GRASom.erase(it);
+            return;
+        }
+    }
 }
 
 template <typename T>
 void CGraphOrient<T>::CGraphSupprimerArc(unsigned int uiIdarc) {
-    ARC.erase(remove_if(ARC.begin(), ARC.end(),
-        [uiIdarc](CArc<T>* arc) { return arc->ARCGet_IdArc() == uiIdarc; }),
-        ARC.end());
+    for (auto it = GRAArc.begin(); it != GRAArc.end(); ++it) {
+        if ((*it)->ARCGet_IdArc() == uiIdarc) {
+            GRAArc.erase(it);
+            return;
+        }
+    }
 }
-*/
+
 template <typename T>
 void CGraphOrient<T>::CGraphOAfficher() {
     cout << "Sommets" << endl;
