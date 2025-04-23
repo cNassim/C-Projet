@@ -1,6 +1,6 @@
 #pragma once
 #include "CGraphOrient.h"
-
+using namespace std;
 template <typename T>
 class CGraph : public CGraphOrient<T> {
 public:
@@ -9,8 +9,8 @@ public:
 
     void CGraphAjouterSommet(CSommet<T>* Som);
     void CGraphAjouterArc(CArc<T>* Arc);
-    std::vector<CSommet<T>*> CGraphGET_Sommet() const;
-    std::vector<CArc<T>*> CGraphGET_Arc() const;
+    vector<CSommet<T>*> CGraphGET_Sommet() const;
+    vector<CArc<T>*> CGraphGET_Arc() const;
     void CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som);
     void CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc);
     void CGraphSupprimerSommet(unsigned int uiIdsom);

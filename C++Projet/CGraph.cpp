@@ -30,12 +30,12 @@ void CGraph<T>::CGraphAjouterArc(CArc<T>* Arc) {
 }
 
 template <typename T>
-std::vector<CSommet<T>*> CGraph<T>::CGraphGET_Sommet() const {
+vector<CSommet<T>*> CGraph<T>::CGraphGET_Sommet() const {
     return this->CGraphOGET_Sommet();
 }
 
 template <typename T>
-std::vector<CArc<T>*> CGraph<T>::CGraphGET_Arc() const {
+vector<CArc<T>*> CGraph<T>::CGraphGET_Arc() const {
     return this->CGraphOGET_Arc();
 }
 
