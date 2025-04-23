@@ -130,14 +130,16 @@
     <ClCompile Include="C++Projet.cpp" />
     <ClCompile Include="CArc.cpp" />
     <ClCompile Include="CException.cpp" />
-    <ClCompile Include="CGraph.cpp" />
+    <ClCompile Include="CGraphe.cpp" />
+    <ClCompile Include="CGraphnonOrient.cpp" />
     <ClCompile Include="CGraphOrient.cpp" />
     <ClCompile Include="CSommet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CArc.h" />
     <ClInclude Include="CException.h" />
-    <ClInclude Include="CGraph.h" />
+    <ClInclude Include="CGraphnonOrient.h" />
+    <ClInclude Include="CGraphe.h" />
     <ClInclude Include="CGraphOrient.h" />
     <ClInclude Include="CSommet.h" />
   </ItemGroup>

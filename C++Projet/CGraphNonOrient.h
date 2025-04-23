@@ -12,7 +12,7 @@ public:
     vector<CSommet<T>*> CGraphGET_Sommet() const;
     vector<CArc<T>*> CGraphGET_Arc() const;
     void CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som);
-    void CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc);
+    void CGraphModifierArc(unsigned int uiIdarc, CArc<T>* Arc);
     void CGraphSupprimerSommet(unsigned int uiIdsom);
     void CGraphSupprimerArc(unsigned int uiIdarc);
     void CGraphAfficher();
