@@ -23,10 +23,10 @@ public:
 	void CGraphOAjouterArc(CArc<T>* Arc);
 	vector<CSommet<T>*>CGraphOGET_Sommet() const;
 	vector<CArc<T>*> CGraphOGET_Arc() const;
-	void CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som);
+	void CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* Som);
 	void CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc);
-	void CGraphSupprimerSommet(unsigned int uiIdsom);
-	void CGraphSupprimerArc(unsigned int uiIdarc);
+	void CGraphOSupprimerSommet(unsigned int uiIdsom);
+	void CGraphOSupprimerArc(unsigned int uiIdarc);
 	void CGraphOAfficher();
 
 };

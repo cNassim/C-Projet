@@ -124,7 +124,7 @@ inline vector<CArc<T>*> CGraphOrient<T>::CGraphOGET_Arc() const {
 /* Entraîne : Modifie le sommet avec l'identifiant donné
 /***********************************************************/
 template <typename T>
-void CGraphOrient<T>::CGraphModifierSommet(unsigned int uiIdsom, CSommet<T>* Som) {
+void CGraphOrient<T>::CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* Som) {
     for (auto& sommet : GRASom) {
         if (sommet->SOMGet_Id() == uiIdsom) {
             sommet = Som;
@@ -161,7 +161,7 @@ void CGraphOrient<T>::CGraphOModifierArc(unsigned int uiIdarc, CArc<T>* Arc) {
 /* Entraîne : Supprime le sommet avec l'identifiant donné
 /***********************************************************/
 template <typename T>
-void CGraphOrient<T>::CGraphSupprimerSommet(unsigned int uiIdsom) {
+void CGraphOrient<T>::CGraphOSupprimerSommet(unsigned int uiIdsom) {
     for (auto it = GRASom.begin(); it != GRASom.end(); ++it) {
         if ((*it)->SOMGet_Id() == uiIdsom) {
             GRASom.erase(it);
@@ -169,3 +169,31 @@ void CGraphOrient<T>::CGraphSupprimerSommet(unsigned int uiIdsom) {
         }
     }
 }
+
+
+template <typename T>
+void CGraphOrient<T>::CGraphOSupprimerArc(unsigned int uiIdarc) {
+    for (auto it = GRAArc.begin(); it != GRAArc.end(); ++it) {
+        if ((*it)->ARCGet_IdArc() == uiIdarc) {
+            GRAArc.erase(it);
+            return;
+        }
+    }
+}
+
+template <typename T>
+void CGraphOrient<T>::CGraphOAfficher() {
+    cout << "Sommets" << endl;
+    for (const auto& sommet : GRASom) {
+        sommet->SOMAfficher();
+    }
+    cout << "\nArcs" << endl;
+    for (const auto& arc : GRAArc) {
+        arc->ARCAfficher();
+    }
+}
+
+// Instanciation des templates pour les types utilisés
+template class CGraphOrient<int>;
+template class CGraphOrient<float>;
+template class CGraphOrient<double>;

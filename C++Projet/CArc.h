@@ -12,27 +12,19 @@ class CArc
 		unsigned int uiARCSomDeb;
 		unsigned int uiARCSomA;
 		unsigned int uiARCIdArc;
-		T tARCDistance;
-		T tARCCap;
-		T tARCPoids;
+
 	
 	//METHODES
 	public:
 		CArc();
-		CArc(CSommet<T>* SommetDeb,CSommet<T>* SommetA,unsigned int uiIdArc,T tDistance,T tCap,T tPoids);
+		CArc(CSommet<T>* SommetDeb,CSommet<T>* SommetA,unsigned int uiIdArc);
 		CArc(const CArc<T>&Arc);
 		~CArc()=default;
 		unsigned int ARCGet_SomDeb() const ;
 		unsigned int ARCGet_SomA() const;
 		unsigned int ARCGet_IdArc() const;
-		T ARCGet_Distance() const;
-		T ARCGet_Cap() const ;
-		T ARCGet_Poids() const;
 		void ARCModifierSomDeb(CSommet<T>* SommetDeb);
 		void ARCModifierSomA(CSommet<T>* SommetA);
 		void ARCSet_IdArc(unsigned int uiIdArc);
-		void ARCSet_Distance(T tDistance);
-		void ARCSet_Cap(T tCap);
 		void ARCAfficher();
-		void ARCSetPoids(T tPoids);
 };
