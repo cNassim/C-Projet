@@ -34,7 +34,7 @@
        /* Sortie : Rien
        /* Entraîne : Initialise les attributs avec les valeurs fournies
        /************************************************************/
-       CSommet(unsigned int uiId, const vector<CArc<T>*> partant, const vector<CArc<T>*> entrant);
+       CSommet(unsigned int uiId, const vector<CArc<T>*>& partant, const vector<CArc<T>*>& entrant);
        /***********************************************************
        /* CSommet (constructeur de copie)
        /************************************************************

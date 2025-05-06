@@ -67,7 +67,11 @@ inline CArc<T> CArc<T>::ARCInverserArc(const CArc<T>& arc) {
     return ARCinv;
 }
 
-
+template <typename T>
+bool CArc<T>::operator==(const CArc<T>& other) const {
+    return (this->ARCGet_SomDeb() == other.ARCGet_SomDeb() &&
+        this->ARCGet_SomA() == other.ARCGet_SomA());
+}
 
 template class CArc<int>;
 template class CArc<float>;

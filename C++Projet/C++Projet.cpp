@@ -1,58 +1,70 @@
-#include "CGraphOrient.h"
+#include <iostream>
+#include <vector>
 #include "CSommet.h"
 #include "CArc.h"
-#include <iostream>
+#include "CException.h"
 
 using namespace std;
 
 int main() {
-    // Création d'un graphe orienté
-    CGraphOrient<int> graphe;
+    try {
+        // Création des sommets
+        CSommet<int>* sommet1 = new CSommet<int>(1, {}, {});
+        CSommet<int>* sommet2 = new CSommet<int>(2, {}, {});
+        CSommet<int>* sommet3 = new CSommet<int>(3, {}, {});
 
-    // Création de sommets
-    CSommet<int>* sommet1 = new CSommet<int>(1,{},{});
-    CSommet<int>* sommet2 = new CSommet<int>(2, {}, {});
-    CSommet<int>* sommet3 = new CSommet<int>(3, {}, {});
+        // Création des arcs
+        CArc<int>* arc1 = new CArc<int>(sommet1, sommet2); // arc1 de sommet1 à sommet2
+        CArc<int>* arc2 = new CArc<int>(sommet2, sommet3); // arc2 de sommet2 à sommet3
 
-    // Ajout des sommets au graphe
-    graphe.CGraphOAjouterSommet(sommet1);
-    graphe.CGraphOAjouterSommet(sommet2);
-    graphe.CGraphOAjouterSommet(sommet3);
+        // Ajout des arcs aux sommets respectifs
+        sommet1->SOMAjouterArcPartant(arc1);
+        sommet2->SOMAjouterArcEntrant(arc1);
+        sommet2->SOMAjouterArcPartant(arc2);
+        sommet3->SOMAjouterArcEntrant(arc2);
 
-    // Création d'arcs
-    CArc<int>* arc1 = new CArc<int>(sommet1, sommet2,1);
-    CArc<int>* arc2 = new CArc<int>(sommet2, sommet3,2);
+        // Affichage des informations des sommets
+        cout << "Sommet 1 :\n";
+        sommet1->SOMAfficher();
 
-    // Ajout des arcs au graphe
-    graphe.CGraphOAjouterArc(arc1);
-    graphe.CGraphOAjouterArc(arc2);
+        cout << "\nSommet 2 :\n";
+        sommet2->SOMAfficher();
 
-    // Affichage du graphe
-    cout << "Affichage du graphe après ajout des sommets et arcs :" << endl;
-    graphe.CGraphOAfficher();
+        cout << "\nSommet 3 :\n";
+        sommet3->SOMAfficher();
 
-    // Suppression d'un sommet
-    graphe.CGraphOSupprimerSommet(1);
-    for (int i = 0; i < 30; i++) {
-        printf("\n");
+        // Test de la suppression et modification d'arc
+        cout << "\nModification de l'arc entre sommet1 et sommet2...\n";
+        CArc<int>* arcModifie = new CArc<int>(sommet1, sommet3); // Nouveau arc entre sommet1 et sommet3
+        sommet1->SOMModifierArcPartant(arc1, arcModifie); // Remplace arc1 par arcModifie
+        sommet2->SOMModifierArcEntrant(arc1, arcModifie); // Remplace arc1 par arcModifie
+
+        cout << "\nSommet 1 apres modification :\n";
+        sommet1->SOMAfficher();
+        cout << "\nSommet 2 apres modification :\n";
+        sommet2->SOMAfficher();
+
+        // Test de suppression d'arc
+        cout << "\nSuppression de l'arc entre sommet2 et sommet3...\n";
+        sommet2->SOMSupprimerArcPartant(arc2); // Suppression de l'arc2 de sommet2
+        sommet3->SOMSupprimerArcEntrant(arc2); // Suppression de l'arc2 de sommet3
+
+        cout << "\nSommet 2 apres suppression de l'arc :\n";
+        sommet2->SOMAfficher();
+        cout << "\nSommet 3 aprs suppression de l'arc :\n";
+        sommet3->SOMAfficher();
+
+        // Nettoyage de la mémoire
+        delete sommet1;
+        delete sommet2;
+        delete sommet3;
+        delete arc1;
+        delete arc2;
+        delete arcModifie;
     }
-    // Affichage du graphe après suppression
-    cout << "Affichage du graphe apres suppression du sommet 1 :" << endl;
-    graphe.CGraphOAfficher();
-
-    // Suppression d'un arc
-    graphe.CGraphOSupprimerArc(1);
-
-    // Affichage du graphe après suppression
-    cout << "Affichage du graphe apres suppression de l'arc 1 :" << endl;
-    graphe.CGraphOAfficher();
-
-    // Libération de la mémoire
-    delete sommet1;
-    delete sommet2;
-    delete sommet3;
-    delete arc1;
-    delete arc2;
+    catch (const CException& e) {
+        cerr << "Erreur : " << e.EXCGet_Val() << endl;
+    }
 
     return 0;
 }

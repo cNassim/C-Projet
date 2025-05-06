@@ -143,7 +143,7 @@ class CGraphOrient
 		/* Sortie : Rien  
 		/* Entraîne : Les informations du graphe sont affichées  
 		/***********************************************************/  
-		void CGraphOAfficher();  
+		void CGraphOAfficher() const;  
 
 		/***********************************************************  
 		/* CGraphOChercherSommetParId  

@@ -7,7 +7,7 @@ template <typename T>
 inline CSommet<T>::CSommet() : uiSOMId(0) {}
 
 template <typename T>
-inline CSommet<T>::CSommet(unsigned int uiId, const vector<CArc<T>*> pPartant, const vector<CArc<T>*> pEntrant)
+inline CSommet<T>::CSommet(unsigned int uiId, const vector<CArc<T>*>& pPartant, const vector<CArc<T>*>& pEntrant)
     : uiSOMId(uiId), ARCPartant(pPartant), ARCEntrant(pEntrant) {
 }
 
@@ -34,12 +34,22 @@ inline void CSommet<T>::SOMSet_Id(unsigned int uiId) {
 
 template <typename T>
 inline void CSommet<T>::SOMAjouterArcPartant(CArc<T>* arcPartant) {
-    ARCPartant.push_back(arcPartant);
+    if (arcPartant && arcPartant->ARCGet_SomDeb() == this) {
+        ARCPartant.push_back(arcPartant);
+    }
+    else {
+        throw CException(10);
+    }
 }
 
 template <typename T>
 inline void CSommet<T>::SOMAjouterArcEntrant(CArc<T>* arcEntrant) {
-    ARCEntrant.push_back(arcEntrant);
+    if (arcEntrant && arcEntrant->ARCGet_SomA() == this) {
+        ARCEntrant.push_back(arcEntrant);
+    }
+    else {
+        throw CException(11);
+    }
 }
 
 template <typename T>
@@ -54,20 +64,59 @@ inline vector<CArc<T>*> CSommet<T>::SOMGet_ARCEntrant() const {
 
 template <typename T>
 inline void CSommet<T>::SOMModifierArcPartant(CArc<T>* ArcToModify, CArc<T>* NewArc) {
-    for (auto& arc : ARCPartant) {
-        if (arc == ArcToModify) {
-            arc = NewArc;
-            return;
+    try {
+        if (!NewArc || NewArc->ARCGet_SomDeb() != this) {
+            throw CException(12);
+        }
+        for (auto& arc : ARCPartant) {
+            if (arc == ArcToModify) {
+                arc = NewArc;
+                return;
+            }
+        }
+        throw CException(13);
+    }
+    catch (const CException& e) {
+        switch (e.EXCGet_Val()) {
+        case 12:
+            cerr << "Erreur : L'arc de remplacement n'est pas sortant de ce sommet." << endl;
+            break;
+        case 13:
+            cerr << "Erreur : Arc à modifier non trouvé dans les arcs partants." << endl;
+            break;
+        default:
+            cerr << "Erreur inconnue dans SOMModifierArcPartant." << endl;
+            break;
         }
     }
 }
 
+
 template <typename T>
 inline void CSommet<T>::SOMModifierArcEntrant(CArc<T>* ArcToModify, CArc<T>* NewArc) {
-    for (auto& arc : ARCEntrant) {
-        if (arc == ArcToModify) {
-            arc = NewArc;
-            return;
+    try {
+        if (!NewArc || NewArc->ARCGet_SomA() != this) {
+            throw CException(14);
+        }
+        for (auto& arc : ARCEntrant) {
+            if (arc == ArcToModify) {
+                arc = NewArc;
+                return;
+            }
+        }
+        throw CException(15);
+    }
+    catch (const CException& e) {
+        switch (e.EXCGet_Val()) {
+        case 14:
+            cerr << "Erreur : L'arc de remplacement n'est pas entrant dans ce sommet." << endl;
+            break;
+        case 15:
+            cerr << "Erreur : Arc à modifier non trouvé dans les arcs entrants." << endl;
+            break;
+        default:
+            cerr << "Erreur inconnue dans SOMModifierArcEntrant." << endl;
+            break;
         }
     }
 }

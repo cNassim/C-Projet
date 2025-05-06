@@ -118,4 +118,7 @@ class CArc
 		/*            et d'arrivée échangés  
 		/***********************************************************/  
 		CArc<T> ARCInverserArc(const CArc<T>& arc);  
+
+		bool operator==(const CArc<T>& other) const;
+
 };
