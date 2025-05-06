@@ -53,7 +53,7 @@ class CGraphOrient
 		/* Sortie : Rien  
 		/* Entraîne : Les ressources allouées sont libérées  
 		/***********************************************************/  
-		~CGraphOrient();  
+		virtual ~CGraphOrient();  
 
 		/***********************************************************  
 		/* CGraphOAjouterSommet  
