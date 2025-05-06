@@ -124,7 +124,7 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
         }
         for (const auto& a : GRAArc) {
             if (*a == *Arc) {
-                throw CException(6); 
+                throw CException(6);
             }
         }
 
@@ -133,6 +133,8 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
             GRASom.push_back(Arc->ARCGet_SomDeb());
             GRASom.push_back(Arc->ARCGet_SomA());
             GRAArc.push_back(Arc);
+            cout << "Arc ajouté : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
+                << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
         }
         else {
             // Vérification si au moins un des sommets de l'arc existe déjà
@@ -152,13 +154,22 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
             if (sommet1Existe && !sommet2Existe) {
                 GRASom.push_back(Arc->ARCGet_SomA());
                 GRAArc.push_back(Arc);
+                cout << "Arc ajouté : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
+                    << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
             }
             else if (!sommet1Existe && sommet2Existe) {
                 GRASom.push_back(Arc->ARCGet_SomDeb());
                 GRAArc.push_back(Arc);
+                cout << "Arc ajouté : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
+                    << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
             }
             else if (!sommet1Existe && !sommet2Existe) {
                 throw CException(5); // Aucun des deux sommets n'existe
+            }
+            else {
+                GRAArc.push_back(Arc);
+                cout << "Arc ajouté : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
+                    << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
             }
         }
     }
@@ -177,7 +188,6 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
         }
     }
 }
-
 
 template <typename T>
 vector<CSommet<T>*> CGraphOrient<T>::CGraphOGET_Sommet() const {
@@ -314,14 +324,28 @@ CSommet<T>* CGraphOrient<T>::CGraphOChercherSommetParId(unsigned int uiIdsom) co
 
 template <typename T>
 void CGraphOrient<T>::CGraphOAfficher() const {
-    cout << "Sommets" << endl;
-    for (const auto& sommet : GRASom) {
-        sommet->SOMAfficher();
+    cout << "=== Affichage du Graphe Oriente ===" << endl;
+    cout << "Nombre d'arcs : " << GRAArc.size() << endl;
+
+    if (GRAArc.empty()) {
+        cout << "Le graphe ne contient aucun arc." << endl;
     }
-    cout << "\nArcs" << endl;
-    for (const auto& arc : GRAArc) {
-        arc->ARCAfficher();
+    else {
+        cout << "Relations entre sommets :" << endl;
+        for (const auto& arc : GRAArc) {
+            CSommet<T>* sommetDebut = arc->ARCGet_SomDeb();
+            CSommet<T>* sommetFin = arc->ARCGet_SomA();
+
+            if (sommetDebut && sommetFin) {
+                cout << "Sommet(" << sommetDebut->SOMGet_Id() << ") -----> Sommet(" << sommetFin->SOMGet_Id() << ")" << endl;
+            }
+            else {
+                cout << "Arc invalide (sommets manquants)." << endl;
+            }
+        }
     }
+
+    cout << "=== Fin de l'Affichage ===" << endl;
 }
 
 template class CGraphOrient<int>;
