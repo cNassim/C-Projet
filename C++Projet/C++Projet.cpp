@@ -1,71 +1,84 @@
 #include <iostream>
-#include <vector>
-#include "CArc.h"
+#include "CGraphOrient.h"
 #include "CSommet.h"
+#include "CArc.h"
+#include "CException.h"
 
 using namespace std;
 
 int main() {
-    // Création des objets CSommet
-    CSommet<int> sommet1(1, {}, {});  // Sommet avec ID 1
-    
-    cout << "Affichage 1 : " << endl;
-    sommet1.SOMAfficher();
-    
-    CSommet<int> sommet2(2, {}, {});  // Sommet avec ID 2
-    CArc<int> arc1(&sommet1, &sommet2, 1, 10, 5, 2);
-    cout << "Affichage 2 : " << endl;
-    arc1.ARCAfficher();
-    
-    CSommet<int> sommet3(3, {}, {});
-    CArc<int> arc3(&sommet1, &sommet3, 3, 20, 10, 4);
-    CArc<int> arc2(&sommet2, &sommet3, 2, 15, 7, 3);  // Arc entre sommet2 et sommet3
+    try {
+        // Création des sommets
+        CSommet<int>* sommet1 = new CSommet<int>(1, vector<CArc<int>*>(), vector<CArc<int>*>());
+        CSommet<int>* sommet2 = new CSommet<int>(2, vector<CArc<int>*>(), vector<CArc<int>*>());
+        CSommet<int>* sommet3 = new CSommet<int>(3, vector<CArc<int>*>(), vector<CArc<int>*>());
+        CSommet<int>* sommetInvalide = nullptr; // Sommet invalide pour tester les erreurs
 
-    cout << "Affichage 3 : " << endl;
-    sommet1.SOMAfficher();
-    sommet2.SOMAfficher();
-    
-    
-    
-   /*cout << "Affichage du sommet 1 et de ses arcs : " << endl;
-    sommet1.SOMAfficher();
-    // Ajouter les arcs aux sommets
-    sommet1.SOMAjouterArcPartant(&arc1);
-    sommet1.SOMAjouterArcPartant(&arc3);
-    cout << "Affichage du sommet 1 et de ses arcs : " << endl;
-    sommet1.SOMAfficher();
+        // Création des arcs
+        CArc<int>* arc1 = new CArc<int>(sommet1, sommet2);
+        CArc<int>* arc2 = new CArc<int>(sommet2, sommet3);
+        CArc<int>* arc3 = new CArc<int>(sommet3, sommet1);
+        CArc<int>* arcInvalide = nullptr; // Arc invalide pour tester les erreurs
 
-    sommet2.SOMAjouterArcPartant(&arc2);
+        // Création du graphe orienté
+        CGraphOrient<int> graph;
 
-    sommet3.SOMAjouterArcEntrant(&arc1);
-    sommet3.SOMAjouterArcEntrant(&arc2);
+        // Ajout des sommets
+        cout << "Ajout des sommets :" << endl;
+        graph.CGraphOAjouterSommet(sommet1);
+        graph.CGraphOAjouterSommet(sommet2);
+        graph.CGraphOAjouterSommet(sommet3);
+        graph.CGraphOAjouterSommet(sommetInvalide); // Tester l'ajout d'un sommet invalide
 
-    // Affichage des sommets et de leurs arcs
-    cout << "Affichage du sommet 1 et de ses arcs : " << endl;
-    sommet1.SOMAfficher();
+        // Ajout des arcs
+        cout << "\nAjout des arcs :" << endl;
+        graph.CGraphOAjouterArc(arc1);
+        graph.CGraphOAjouterArc(arc2);
+        graph.CGraphOAjouterArc(arc3);
+        graph.CGraphOAjouterArc(arcInvalide); // Tester l'ajout d'un arc invalide
 
-    cout << "\nAffichage du sommet 2 et de ses arcs : " << endl;
-    sommet2.SOMAfficher();
+        // Affichage du graphe
+        cout << "\nAffichage du graphe orienté :" << endl;
+        graph.CGraphOAfficher();
 
-    cout << "\nAffichage du sommet 3 et de ses arcs : " << endl;
-    sommet3.SOMAfficher();*/
-    
-    // Modification d'un arc
-    cout << "\nModification de l'arc entre sommet1 et sommet2" << endl;
-    arc1.ARCModifierSomDeb(&sommet3);  // Modifier sommet départ de arc1
-    arc1.ARCModifierSomA(&sommet2);    // Modifier sommet arrivée de arc1
+        // Test de suppression d'un sommet
+        cout << "\nSuppression du sommet 2 :" << endl;
+        graph.CGraphOSupprimerSommet(2);
+        graph.CGraphOAfficher();
 
-    // Affichage après modification
-    cout << "\nAffichage du sommet 1 et de ses arcs après modification : " << endl;
-    sommet1.SOMAfficher();
+        // Test de suppression d'un arc
+        cout << "\nSuppression d'un arc (1 → 2) :" << endl;
+        graph.CGraphOSupprimerArc(arc1);
+        graph.CGraphOAfficher();
 
-    // Suppression d'un arc
-    cout << "\nSuppression de l'arc entre sommet1 et sommet3" << endl;
-    sommet1.SOMSupprimerArcPartant(3);  // Supprimer arc3 de sommet1
-    
-    // Affichage après suppression
-    cout << "\nAffichage du sommet 1 après suppression de l'arc : " << endl;
-    sommet1.SOMAfficher();
-    
+        // Test de modification d'un sommet
+        cout << "\nModification du sommet 3 :" << endl;
+        CSommet<int>* sommetNouveau = new CSommet<int>(4, vector<CArc<int>*>(), vector<CArc<int>*>());
+        graph.CGraphOModifierSommet(3, sommetNouveau);
+        graph.CGraphOAfficher();
+
+        // Test de modification d'un arc
+        cout << "\nModification d'un arc (2 → 3) :" << endl;
+        CArc<int>* nouvelArc = new CArc<int>(sommet1, sommetNouveau);
+        graph.CGraphOModifierArc(arc2, nouvelArc);
+        graph.CGraphOAfficher();
+
+        // Libération de la mémoire
+        delete sommet1;
+        delete sommet2;
+        delete sommet3;
+        delete sommetNouveau;
+        delete arc1;
+        delete arc2;
+        delete arc3;
+        delete nouvelArc;
+    }
+    catch (const CException& e) {
+        cerr << "Erreur capturée dans le main : " << e.EXCGet_Val() << endl;
+    }
+    catch (...) {
+        cerr << "Erreur inconnue capturée dans le main !" << endl;
+    }
+
     return 0;
 }

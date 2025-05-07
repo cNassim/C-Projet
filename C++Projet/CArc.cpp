@@ -2,233 +2,77 @@
 #include "CSommet.h"
 #include "CException.h"
 
-/***********************************************************
-/* CArc
-/***********************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : Les attributs de CARC sont initialisés à 0
-/***********************************************************/
 template <typename T>
-inline CArc<T>::CArc() : uiARCSomDeb(0), uiARCSomA(0), uiARCIdArc(0), tARCDistance(0), tARCCap(0), tARCPoids(0) {}
+inline CArc<T>::CArc() : pSommetDeb(nullptr), pSommetA(nullptr){}
 
-/***********************************************************
-/* CArc
-/************************************************************
-/* Entrée : uiSomDeb : La valeur avec laquelle iARCSomDeb sera initialisé,
-/*			uiSomA : La valeur avec laquelle iARCSomA sera initialisé,
-/*			uiIdArc : La valeur avec laquelle iARCIdArc sera initialisé,
-/*			tDistance : La valeur avec laquelle iARCDistance sera initialisé,
-/*		    tiCap : La valeur avec laquelle iARCCap sera initialisé,
-/*			tPoids : La valeur avec laquelle iARCPoids sera initialisé.
-/*
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : Les attributs de CARC sont initialisés avec des valeurs donner.
-/************************************************************/
 template <typename T>
-inline CArc<T>::CArc(CSommet<T>* SommetDeb , CSommet<T>* SommetA, unsigned int uiIdArc, T tDistance,T tCap,T tPoids)
-	:uiARCSomDeb(SommetDeb->SOMGet_Id()), uiARCSomA(SommetA->SOMGet_Id()), uiARCIdArc(uiIdArc), tARCDistance(tDistance), tARCCap(tCap), tARCPoids(tPoids) {
+inline CArc<T>::CArc(CSommet<T>* SommetDeb, CSommet<T>* SommetA)
+    : pSommetDeb(SommetDeb), pSommetA(SommetA){
     if (SommetDeb) {
         SommetDeb->SOMAjouterArcPartant(this);
     }
-    if(SommetA){
-    SommetA->SOMAjouterArcEntrant(this);
+    if (SommetA) {
+        SommetA->SOMAjouterArcEntrant(this); 
     }
 }
 
-
-/***********************************************************
-/* CArc
-/************************************************************
-/* Entrée : Arc : un objet de la classe CARC
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : Les attributs de CARC sont initialisés avec les valeurs de l'objet ARC
-/************************************************************/
 template <typename T>
 inline CArc<T>::CArc(const CArc<T>& Arc)
-    : uiARCSomDeb(Arc.ARCGet_SomDeb()), uiARCSomA(Arc.ARCGet_SomA()), uiARCIdArc(Arc.ARCGet_IdArc()), tARCDistance(Arc.ARCGet_Distance()),
-    tARCCap(Arc.ARCGet_Cap()), tARCPoids(Arc.ARCGet_Poids()) {
+    : pSommetDeb(Arc.ARCGet_SomDeb()), pSommetA(Arc.ARCGet_SomA()) {
 }
 
-/***********************************************************
-/* ARCGet_SomDeb
-/************************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : La valeur de uiARCSomDeb
-/* Entraîne : Rien
-/************************************************************/
 template <typename T>
-inline unsigned int CArc<T>::ARCGet_SomDeb() const {
-    return uiARCSomDeb;
+inline CSommet<T>* CArc<T>::ARCGet_SomDeb() const {
+    return pSommetDeb;
 }
 
-/***********************************************************
-/* ARCGet_SomA
-/************************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : La valeur de uiARCSomA
-/* Entraîne : Rien
-/************************************************************/
 template <typename T>
-inline unsigned int CArc<T>::ARCGet_SomA() const {
-    return uiARCSomA;
+inline CSommet<T>* CArc<T>::ARCGet_SomA() const {
+    return pSommetA;
 }
 
-/***********************************************************
-/* ARCGetPoids
-/************************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : La valeur de tARCPoids
-/* Entraîne : Rien
-/************************************************************/
-template <typename T>
-inline T CArc<T>::ARCGet_Poids() const {
-    return tARCPoids;
-}
 
-/***********************************************************
-/* ARCGet_IdArc
-/************************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : La valeur de uiARCIdArc
-/* Entraîne : Rien
-/************************************************************/
-template <typename T>
-inline unsigned int CArc<T>::ARCGet_IdArc() const {
-    return uiARCIdArc;
-}
 
-/***********************************************************
-/* ARCSet_Distance
-/************************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : La valeur de tDistance
-/* Entraîne : Rien
-/************************************************************/
-template <typename T>
-inline T CArc<T>::ARCGet_Distance() const {
-    return tARCDistance;
-}
-
-/***********************************************************
-/* ARCSet_Cap
-/************************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : La valeur de tARCCap
-/* Entraîne : Rien
-/************************************************************/
-template <typename T>
-inline T CArc<T>::ARCGet_Cap() const {
-    return tARCCap;
-}
-
-/***********************************************************
-/* ARCSet_IdArc
-/************************************************************
-/* Entrée : iIdArc : Nouvelle valeur pour iARCIdArc
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : iARCIdArc est mis à jour
-/************************************************************/
-template <typename T>
-inline void CArc<T>::ARCSet_IdArc(unsigned int uiIdArc) {
-    uiARCIdArc = uiIdArc;
-}
-
-/***********************************************************
-/* ARCSet_Distance
-/************************************************************
-/* Entrée : iDistance : Nouvelle valeur pour iARCDistance
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : iARCDistance est mis à jour
-/************************************************************/
-template <typename T>
-inline void CArc<T>::ARCSet_Distance(T tDistance) {
-    tARCDistance = tDistance;
-}
-
-/***********************************************************
-/* ARCSet_Cap
-/************************************************************
-/* Entrée : iCap : Nouvelle valeur pour iARCCap
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : iARCCap est mis à jour
-/************************************************************/
-template <typename T>
-inline void CArc<T>::ARCSet_Cap(T tCap) {
-    tARCCap = tCap;
-}
-
-/***********************************************************
-/* ARCSetPoids
-/************************************************************
-/* Entrée : tPoids : Nouvelle valeur pour tARCPoids
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : tARCPoids est mis à jour
-/************************************************************/
-template <typename T>
-inline void CArc<T>::ARCSetPoids(T tPoids) {
-    tARCPoids = tPoids;
-}
-
-/***********************************************************
-/* ARCModifierSomDeb
-/************************************************************
-/* Entrée : uiIdArc : Identifiant de l'arc
-/*          SommetDeb : Pointeur vers un objet CSommet
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : uiARCSomDeb est mis à jour avec l'identifiant du sommet
-/************************************************************/
 template <typename T>
 inline void CArc<T>::ARCModifierSomDeb(CSommet<T>* SommetDeb) {
     if (SommetDeb) {
-        uiARCSomDeb = SommetDeb->SOMGet_Id();
+        pSommetDeb = SommetDeb;
     }
 }
-/***********************************************************
-/* ARCModifierSomA
-/************************************************************
-/* Entrée : uiIdArc : Identifiant de l'arc
-/*          SommetA : Pointeur vers un objet CSommet
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : uiARCSomA est mis à jour avec l'identifiant du sommet
-/************************************************************/
+
 template <typename T>
 inline void CArc<T>::ARCModifierSomA(CSommet<T>* SommetA) {
     if (SommetA) {
-        uiARCSomA = SommetA->SOMGet_Id();
+        pSommetA = SommetA;
     }
 }
-/***********************************************************
-/* ARCAfficher
-/************************************************************
-/* Entrée : Rien
-/* Nécessite : Rien
-/* Sortie : Rien
-/* Entraîne : Affiche les informations de l'arc
-/************************************************************/
+
 template <typename T>
 inline void CArc<T>::ARCAfficher() {
-    cout << "Arc ID: " << uiARCIdArc << " | Sommet Depart: " << uiARCSomDeb
-        << " | Sommet Arrivee: " << uiARCSomA << " | Distance: " << tARCDistance
-        << " | Capacite: " << tARCCap << " | Poids: " << tARCPoids << endl;
+    if (pSommetDeb && pSommetA) {
+        cout << "Sommet Depart: " << pSommetDeb->SOMGet_Id()
+            << " | Sommet Arrivee: " << pSommetA->SOMGet_Id() << endl;
+    }
+    else {
+        cout << "Arc invalide" << endl;
+    }
 }
 
-// Instanciation des templates pour les types utilisés
+template <typename T>
+inline CArc<T> CArc<T>::ARCInverserArc(const CArc<T>& arc) {
+    CSommet<T>* SommetDeb = arc.ARCGet_SomDeb();
+    CSommet<T>* SommetA = arc.ARCGet_SomA();      
+
+    CArc<T> ARCinv(SommetA, SommetDeb);
+    return ARCinv;
+}
+
+template <typename T>
+bool CArc<T>::operator==(const CArc<T>& other) const {
+    return (this->ARCGet_SomDeb() == other.ARCGet_SomDeb() &&
+        this->ARCGet_SomA() == other.ARCGet_SomA());
+}
+
 template class CArc<int>;
 template class CArc<float>;
 template class CArc<double>;
