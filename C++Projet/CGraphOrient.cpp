@@ -137,7 +137,7 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
                 << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
         }
         else {
-            // Vérification si au moins un des sommets de l'arc existe déjà
+            // VÃ©rification si au moins un des sommets de l'arc existe dÃ©jÃ 
             bool sommet1Existe = false;
             bool sommet2Existe = false;
 
@@ -181,7 +181,7 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
             cerr << "Erreur : Aucun des deux sommets n'existe dans le graphe !" << endl;
         }
         else if (e.EXCGet_Val() == 6) {
-            cerr << "Erreur : L'arc existe déjà dans le graphe !" << endl;
+            cerr << "Erreur : L'arc existe dÃ©jÃ  dans le graphe !" << endl;
         }
         else {
             cerr << "Erreur inconnue lors de l'ajout de l'arc !" << endl;
@@ -240,7 +240,6 @@ void CGraphOrient<T>::CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* no
         }
     }
 }
-
 
 template <typename T>
 void CGraphOrient<T>::CGraphOModifierArc(CArc<T>* arcToModify, CArc<T>* newArc) {

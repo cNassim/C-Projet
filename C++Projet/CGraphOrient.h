@@ -10,148 +10,148 @@ class CGraphOrient
 {  
 	//ATTRIBUTS  
 	private:  
-		vector<CSommet<T>*> GRASom; // Liste des sommets du graphe orienté  
-		vector<CArc<T>*> GRAArc;    // Liste des arcs du graphe orienté  
+		vector<CSommet<T>*> GRASom; // Liste des sommets du graphe orientï¿½  
+		vector<CArc<T>*> GRAArc;    // Liste des arcs du graphe orientï¿½  
 
 	//METHODES  
 	public:  
 		/***********************************************************  
 		/* CGraphOrient  
 		/***********************************************************  
-		/* Entrée : Rien  
-		/* Nécessite : Rien  
+		/* Entrï¿½e : Rien  
+		/* Nï¿½cessite : Rien  
 		/* Sortie : Rien  
-		/* Entraîne : Les attributs de CGraphOrient sont initialisés  
+		/* Entraï¿½ne : Les attributs de CGraphOrient sont initialisï¿½s  
 		/***********************************************************/  
 		CGraphOrient();  
 
 		/***********************************************************  
-		/* CGraphOrient (constructeur avec paramètres)  
+		/* CGraphOrient (constructeur avec paramï¿½tres)  
 		/***********************************************************  
-		/* Entrée : Un vecteur de pointeurs vers des sommets et un vecteur de pointeurs vers des arcs  
-		/* Nécessite : Les vecteurs doivent être valides  
+		/* Entrï¿½e : Un vecteur de pointeurs vers des sommets et un vecteur de pointeurs vers des arcs  
+		/* Nï¿½cessite : Les vecteurs doivent ï¿½tre valides  
 		/* Sortie : Rien  
-		/* Entraîne : Les attributs sont initialisés avec les valeurs fournies  
+		/* Entraï¿½ne : Les attributs sont initialisï¿½s avec les valeurs fournies  
 		/***********************************************************/  
 		CGraphOrient(const vector<CSommet<T>*>& sommet, const vector<CArc<T>*>& arc);
 
 		/***********************************************************  
 		/* CGraphOrient (constructeur de copie)  
 		/***********************************************************  
-		/* Entrée : Une référence constante vers un autre graphe orienté  
-		/* Nécessite : Le graphe doit être valide  
+		/* Entrï¿½e : Une rï¿½fï¿½rence constante vers un autre graphe orientï¿½  
+		/* Nï¿½cessite : Le graphe doit ï¿½tre valide  
 		/* Sortie : Rien  
-		/* Entraîne : Une copie du graphe est créée  
+		/* Entraï¿½ne : Une copie du graphe est crï¿½ï¿½e  
 		/***********************************************************/  
 		CGraphOrient(const CGraphOrient& GraphOrient);
 
 		/***********************************************************  
 		/* ~CGraphOrient (destructeur)  
 		/***********************************************************  
-		/* Entrée : Rien  
-		/* Nécessite : Rien  
+		/* Entrï¿½e : Rien  
+		/* Nï¿½cessite : Rien  
 		/* Sortie : Rien  
-		/* Entraîne : Les ressources allouées sont libérées  
+		/* Entraï¿½ne : Les ressources allouï¿½es sont libï¿½rï¿½es  
 		/***********************************************************/  
 		virtual ~CGraphOrient();  
 
 		/***********************************************************  
 		/* CGraphOAjouterSommet  
 		/***********************************************************  
-		/* Entrée : Un pointeur vers un sommet  
-		/* Nécessite : Le sommet doit être valide  
+		/* Entrï¿½e : Un pointeur vers un sommet  
+		/* Nï¿½cessite : Le sommet doit ï¿½tre valide  
 		/* Sortie : Rien  
-		/* Entraîne : Le sommet est ajouté au graphe  
+		/* Entraï¿½ne : Le sommet est ajoutï¿½ au graphe  
 		/***********************************************************/  
 		void CGraphOAjouterSommet(CSommet<T>* Som);
 
 		/***********************************************************  
 		/* CGraphOAjouterArc  
 		/***********************************************************  
-		/* Entrée : Un pointeur vers un arc  
-		/* Nécessite : L'arc doit être valide  
+		/* Entrï¿½e : Un pointeur vers un arc  
+		/* Nï¿½cessite : L'arc doit ï¿½tre valide  
 		/* Sortie : Rien  
-		/* Entraîne : L'arc est ajouté au graphe  
+		/* Entraï¿½ne : L'arc est ajoutï¿½ au graphe  
 		/***********************************************************/  
 		virtual void CGraphOAjouterArc(CArc<T>* Arc);  
 
 		/***********************************************************  
 		/* CGraphOGET_Sommet  
 		/***********************************************************  
-		/* Entrée : Rien  
-		/* Nécessite : Rien  
+		/* Entrï¿½e : Rien  
+		/* Nï¿½cessite : Rien  
 		/* Sortie : Un vecteur contenant les sommets du graphe  
-		/* Entraîne : Aucun effet de bord  
+		/* Entraï¿½ne : Aucun effet de bord  
 		/***********************************************************/  
 		vector<CSommet<T>*> CGraphOGET_Sommet() const;
 
 		/***********************************************************  
 		/* CGraphOGET_Arc  
 		/***********************************************************  
-		/* Entrée : Rien  
-		/* Nécessite : Rien  
+		/* Entrï¿½e : Rien  
+		/* Nï¿½cessite : Rien  
 		/* Sortie : Un vecteur contenant les arcs du graphe  
-		/* Entraîne : Aucun effet de bord  
+		/* Entraï¿½ne : Aucun effet de bord  
 		/***********************************************************/  
 		vector<CArc<T>*> CGraphOGET_Arc() const;
 
 		/***********************************************************  
 		/* CGraphOModifierSommet  
 		/***********************************************************  
-		/* Entrée : Un identifiant de sommet et un pointeur vers un sommet  
-		/* Nécessite : L'identifiant doit être valide  
+		/* Entrï¿½e : Un identifiant de sommet et un pointeur vers un sommet  
+		/* Nï¿½cessite : L'identifiant doit ï¿½tre valide  
 		/* Sortie : Rien  
-		/* Entraîne : Le sommet correspondant est modifié  
+		/* Entraï¿½ne : Le sommet correspondant est modifiï¿½  
 		/***********************************************************/  
 		void CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* Som);
 
 		/***********************************************************  
 		/* CGraphOModifierArc  
 		/***********************************************************  
-		/* Entrée : Un pointeur vers l'arc à modifier et un pointeur vers le nouvel arc  
-		/* Nécessite : Les arcs doivent être valides  
+		/* Entrï¿½e : Un pointeur vers l'arc ï¿½ modifier et un pointeur vers le nouvel arc  
+		/* Nï¿½cessite : Les arcs doivent ï¿½tre valides  
 		/* Sortie : Rien  
-		/* Entraîne : L'arc correspondant est modifié  
+		/* Entraï¿½ne : L'arc correspondant est modifiï¿½  
 		/***********************************************************/  
 		void CGraphOModifierArc(CArc<T>* arcToModify, CArc<T>* newArc);
 
 		/***********************************************************  
 		/* CGraphOSupprimerSommet  
 		/***********************************************************  
-		/* Entrée : Un identifiant de sommet  
-		/* Nécessite : L'identifiant doit être valide  
+		/* Entrï¿½e : Un identifiant de sommet  
+		/* Nï¿½cessite : L'identifiant doit ï¿½tre valide  
 		/* Sortie : Rien  
-		/* Entraîne : Le sommet correspondant est supprimé  
+		/* Entraï¿½ne : Le sommet correspondant est supprimï¿½  
 		/***********************************************************/  
 		void CGraphOSupprimerSommet(unsigned int uiIdsom);  
 
 		/***********************************************************  
 		/* CGraphOSupprimerArc  
 		/***********************************************************  
-		/* Entrée : Un pointeur vers l'arc à supprimer  
-		/* Nécessite : L'arc doit être valide  
+		/* Entrï¿½e : Un pointeur vers l'arc ï¿½ supprimer  
+		/* Nï¿½cessite : L'arc doit ï¿½tre valide  
 		/* Sortie : Rien  
-		/* Entraîne : L'arc correspondant est supprimé  
+		/* Entraï¿½ne : L'arc correspondant est supprimï¿½  
 		/***********************************************************/  
 		void CGraphOSupprimerArc(CArc<T>* arcToDelete);  
 
 		/***********************************************************  
 		/* CGraphOAfficher  
 		/***********************************************************  
-		/* Entrée : Rien  
-		/* Nécessite : Rien  
+		/* Entrï¿½e : Rien  
+		/* Nï¿½cessite : Rien  
 		/* Sortie : Rien  
-		/* Entraîne : Les informations du graphe sont affichées  
+		/* Entraï¿½ne : Les informations du graphe sont affichï¿½es  
 		/***********************************************************/  
 		void CGraphOAfficher() const;  
 
 		/***********************************************************  
 		/* CGraphOChercherSommetParId  
 		/***********************************************************  
-		/* Entrée : Un identifiant de sommet  
-		/* Nécessite : L'identifiant doit être valide  
-		/* Sortie : Un pointeur vers le sommet correspondant ou nullptr si non trouvé  
-		/* Entraîne : Aucun effet de bord  
+		/* Entrï¿½e : Un identifiant de sommet  
+		/* Nï¿½cessite : L'identifiant doit ï¿½tre valide  
+		/* Sortie : Un pointeur vers le sommet correspondant ou nullptr si non trouvï¿½  
+		/* Entraï¿½ne : Aucun effet de bord  
 		/***********************************************************/  
 		CSommet<T>* CGraphOChercherSommetParId(unsigned int uiIdsom) const;
 };
