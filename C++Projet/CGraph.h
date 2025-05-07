@@ -1,5 +1,6 @@
 #pragma once
 #include "CGraphOrient.h"
+#include "CArc.h"
 #include <iostream>
 
 using namespace std;
