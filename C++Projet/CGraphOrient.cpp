@@ -3,6 +3,10 @@
 #include "CException.h"
 #include "CGraphOrient.h"
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -302,6 +306,81 @@ CSommet<T>* CGraphOrient<T>::CGraphOChercherSommetParId(unsigned int uiIdsom) co
     }
     return nullptr;
 }
+
+
+template <typename T>
+CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sChemain) {
+    try {
+        ifstream fichier(sChemain);
+        if (!fichier.is_open()) {
+            throw CException(1001);
+        }
+        string ligne;
+        int nbSommets = 0;
+        int nbArcs = 0; 
+        vector<CSommet<T>*> sommets;
+        vector<CArc<T>*> arcs;
+
+        while (getline(fichier, ligne)) {
+            if (ligne.find("NBSommets=") != string::npos) {
+                nbSommets = std::stoi(ligne.substr(ligne.find("=") + 1));
+            }
+            else if (ligne.find("NBArcs=") != string::npos) {
+                nbArcs = std::stoi(ligne.substr(ligne.find("=") + 1));
+            }
+            else if (ligne.find("Sommets=[") != string::npos) {
+                while (std::getline(fichier, ligne) && ligne.find("]") == string::npos) {
+                    if (ligne.find("Numero=") != string::npos) {
+                        int numero = std::stoi(ligne.substr(ligne.find("=") + 1));
+                        sommets.push_back(new CSommet<T>(numero, {}, {}));
+                    }
+                }
+            }
+            else if (ligne.find("Arcs=[") != string::npos) {
+                while (getline(fichier, ligne) && ligne.find("]") == string::npos) {
+                    if (ligne.find("Debut=") != std::string::npos && ligne.find("Fin=") != string::npos) {
+                        int debut = stoi(ligne.substr(ligne.find("Debut=") + 6, ligne.find(",") - 6));
+                        int fin = stoi(ligne.substr(ligne.find("Fin=") + 4));
+                        CSommet<T>* sommetDebut = nullptr;
+                        CSommet<T>* sommetFin = nullptr;
+                        for (auto& sommet : sommets) {
+                            if (sommet->SOMGet_Id() == debut) {
+                                sommetDebut = sommet;
+                            }
+                            if (sommet->SOMGet_Id() == fin) {
+                                sommetFin = sommet;
+                            }
+                        }
+                        if (sommetDebut && sommetFin) {
+                            arcs.push_back(new CArc<T>(sommetDebut, sommetFin));
+                        }
+                        else {
+                            throw CException(1003); 
+                        }
+                    }
+                }
+            }
+        }
+        fichier.close();
+        return new CGraphOrient<T>(sommets, arcs);
+    }
+    catch (const CException& e) {
+        cerr << "Erreur (Code " << e.EXCGet_Val() << ") : ";
+        switch (e.EXCGet_Val()) {
+        case 1001:
+            cerr << "Impossible d'ouvrir le fichier." << endl;
+            break;
+        case 1003:
+            cerr << "Sommet introuvable lors de la création d'un arc." << endl;
+            break;
+        default:
+            cerr << "Erreur inconnue." << endl;
+            break;
+        }
+        return nullptr;
+    }
+}
+
 
 template <typename T>
 void CGraphOrient<T>::CGraphOAfficher() const {

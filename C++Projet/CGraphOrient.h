@@ -167,7 +167,14 @@ class CGraphOrient
 		/***********************************************************/  
 		CSommet<T>* CGraphOChercherSommetParId(unsigned int uiIdsom) const;
 
-
-
+		/***********************************************************
+		/* CGraphOLireFichier
+		/***********************************************************
+		/* Entrée : Un chemin de fichier sous forme de chaîne de caractères
+		/* Nécessite : Le fichier doit exister et être accessible
+		/* Sortie : Un pointeur vers un objet CGraphOrient initialisé avec les données du fichier
+		/* Entraîne : Le graphe est construit à partir des données du fichier
+		/***********************************************************/
+		static CGraphOrient<T>* CGraphOLireFichier(const string& sChemain);
 		
 };
