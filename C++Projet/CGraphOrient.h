@@ -166,4 +166,8 @@ class CGraphOrient
 		/* Entra�ne : Aucun effet de bord  
 		/***********************************************************/  
 		CSommet<T>* CGraphOChercherSommetParId(unsigned int uiIdsom) const;
+
+
+
+		
 };

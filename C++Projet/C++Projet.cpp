@@ -1,80 +1,55 @@
 #include <iostream>
-#include "CGraphOrient.h"
+#include "CGraph.h"
 #include "CSommet.h"
 #include "CArc.h"
-#include "CException.h"
-
-using namespace std;
 
 int main() {
-    try {
-        // Création des sommets
-        CSommet<int>* sommet1 = new CSommet<int>(1, vector<CArc<int>*>(), vector<CArc<int>*>());
-        CSommet<int>* sommet2 = new CSommet<int>(2, vector<CArc<int>*>(), vector<CArc<int>*>());
-        CSommet<int>* sommet3 = new CSommet<int>(3, vector<CArc<int>*>(), vector<CArc<int>*>());
-        CSommet<int>* sommetInvalide = nullptr; // Sommet invalide pour tester les erreurs
+    // Création de sommets
+    CSommet<int>* sommet1 = new CSommet<int>(1, {}, {}); // Sommet avec ID 1
+    CSommet<int>* sommet2 = new CSommet<int>(2, {}, {}); // Sommet avec ID 2
+    CSommet<int>* sommet3 = new CSommet<int>(3, {}, {}); // Sommet avec ID 3
 
-        // Création des arcs
-        CArc<int>* arc1 = new CArc<int>(sommet1, sommet2);
-        CArc<int>* arc2 = new CArc<int>(sommet2, sommet3);
-        CArc<int>* arc3 = new CArc<int>(sommet3, sommet1);
-        CArc<int>* arcInvalide = nullptr; // Arc invalide pour tester les erreurs
+    // Création d'arcs (arêtes)
+    CArc<int>* arc1 = new CArc<int>(sommet1, sommet2); // Arête entre sommet 1 et sommet 2
+    CArc<int>* arc2 = new CArc<int>(sommet2, sommet3); // Arête entre sommet 2 et sommet 3
 
-        // Création du graphe orienté
-        CGraphOrient<int> graph;
+    // Création du graphe non orienté
+    CGraph<int> graph;
 
-        // Ajout des sommets
-        cout << "Ajout des sommets :" << endl;
-        graph.CGraphOAjouterSommet(sommet1);
-        graph.CGraphOAjouterSommet(sommet2);
-        graph.CGraphOAjouterSommet(sommet3);
-        graph.CGraphOAjouterSommet(sommetInvalide); // Tester l'ajout d'un sommet invalide
+    // Ajout des arêtes au graphe
+    std::cout << "Ajout des aretes..." << std::endl;
+    graph.CGraphAjouterArret(arc1);
+    graph.CGraphAjouterArret(arc2);
+    graph.CGraphAfficher();
 
-        // Ajout des arcs
-        cout << "\nAjout des arcs :" << endl;
-        graph.CGraphOAjouterArc(arc1);
-        graph.CGraphOAjouterArc(arc2);
-        graph.CGraphOAjouterArc(arc3);
-        graph.CGraphOAjouterArc(arcInvalide); // Tester l'ajout d'un arc invalide
+    // Modification d'une arête
+    std::cout << "\nModification d'une arete (2 -> 3 devient 1 -> 3)..." << std::endl;
+    CArc<int>* newArc = new CArc<int>(sommet1, sommet3); // Nouvelle arête entre sommet 1 et sommet 3
+    graph.CGraphModifierArret(arc2, newArc);
+    graph.CGraphAfficher();
 
-        // Affichage du graphe
-        cout << "\nAffichage du graphe orienté :" << endl;
-        graph.CGraphOAfficher();
+    // Suppression d'une arête
+    std::cout << "\nSuppression de l'arete entre sommet 1 et sommet 2..." << std::endl;
+    graph.CGraphSupprimerArret(arc1);
+    graph.CGraphAfficher();
 
-        // Test de suppression d'un sommet
-        cout << "\nSuppression du sommet 2 :" << endl;
-        graph.CGraphOSupprimerSommet(2);
-        graph.CGraphOAfficher();
+    // Test de suppression d'une arête inexistante
+    std::cout << "\nTentative de suppression d'une arete inexistante..." << std::endl;
+    graph.CGraphSupprimerArret(arc1); // Cela devrait lever une exception ou ne rien faire
 
-        // Test de suppression d'un arc
-        cout << "\nSuppression d'un arc (1 → 2) :" << endl;
-        graph.CGraphOSupprimerArc(arc1);
-        graph.CGraphOAfficher();
+    // Afficher le graphe final
+    std::cout << "\nEtat final du graphe : " << std::endl;
+    graph.CGraphAfficher();
 
-        // Test de modification d'un sommet
-        cout << "\nModification du sommet 3 :" << endl;
-        CSommet<int>* sommetNouveau = new CSommet<int>(4, vector<CArc<int>*>(), vector<CArc<int>*>());
-        graph.CGraphOModifierSommet(3, sommetNouveau);
-        graph.CGraphOAfficher();
-
-        // Test de modification d'un arc
-        cout << "\nModification d'un arc (2 → 3) :" << endl;
-        CArc<int>* nouvelArc = new CArc<int>(sommet1, sommetNouveau);
-        graph.CGraphOModifierArc(arc2, nouvelArc);
-        graph.CGraphOAfficher();
-
-        delete arc1;
-        delete arc2;
-        delete arc3;
+    delete arc1;
+    delete arc2;
+    delete newArc;
+    delete sommet1;
+    delete sommet2;
+    delete sommet3;
 
 
-    }
-    catch (const CException& e) {
-        cerr << "Erreur capturée dans le main : " << e.EXCGet_Val() << endl;
-    }
-    catch (...) {
-        cerr << "Erreur inconnue capturée dans le main !" << endl;
-    }
+
 
     return 0;
 }

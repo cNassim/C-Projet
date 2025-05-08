@@ -78,12 +78,6 @@ CGraphOrient<T>::CGraphOrient(const CGraphOrient& GraphOrient)
 
 template <typename T>
 CGraphOrient<T>::~CGraphOrient() {
-    for (auto sommet : GRASom) {
-        delete sommet;
-    }
-    for (auto arc : GRAArc) {
-        delete arc;
-    }
     GRASom.clear();
     GRAArc.clear();
 }
@@ -188,7 +182,7 @@ const vector<CArc<T>*> CGraphOrient<T>::CGraphOGET_Arc() const {
 
 template <typename T>
 vector<CArc<T>*>& CGraphOrient<T>::CGraphOGET_Arc() {
-    return GRAArc; // Retourne une référence
+    return GRAArc;
 }
 
 template <typename T>
@@ -214,7 +208,6 @@ void CGraphOrient<T>::CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* no
 
         for (auto& sommet : GRASom) {
             if (sommet == ancienSommet) {
-                delete sommet;
                 sommet = nouveauSommet;
                 return;
             }
