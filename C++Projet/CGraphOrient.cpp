@@ -1,0 +1,421 @@
+#include "CArc.h"
+#include "CSommet.h"
+#include "CException.h"
+#include "CGraphOrient.h"
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+template<typename T>
+CGraphOrient<T>::CGraphOrient() : GRASom(), GRAArc() {
+}
+
+template <typename T>
+CGraphOrient<T>::CGraphOrient(const vector<CSommet<T>*>& sommet, const vector<CArc<T>*>& arc)
+    : GRASom(sommet), GRAArc(arc) {
+    try {
+        for (auto& Arc : GRAArc) {
+            if (!Arc) {
+                throw CException(1);
+            }
+            if (!Arc->ARCGet_SomDeb() || !Arc->ARCGet_SomA()) {
+                throw CException(2);
+            }
+        }
+        for (auto& Arc : GRAArc) {
+            bool sommet1Existe = false;
+            bool sommet2Existe = false;
+
+            for (auto& sommet : GRASom) {
+                if (sommet == Arc->ARCGet_SomDeb()) {
+                    sommet1Existe = true;
+                }
+                if (sommet == Arc->ARCGet_SomA()) {
+                    sommet2Existe = true;
+                }
+            }
+
+            if (!sommet1Existe || !sommet2Existe) {
+                throw CException(3);
+            }
+        }
+    }
+    catch (const CException& e) {
+        if (e.EXCGet_Val() == 1) {
+            cerr << "Erreur : Un arc est nul dans le constructeur !" << endl;
+        }
+        else if (e.EXCGet_Val() == 2) {
+            cerr << "Erreur : Un arc contient des sommets invalides !" << endl;
+        }
+        else if (e.EXCGet_Val() == 3) {
+            cerr << "Erreur : Un ou les deux sommets de l'arc n'existent pas !" << endl;
+        }
+        else {
+            cerr << "Erreur inconnue lors de la construction du graphe !" << endl;
+        }
+    }
+}
+
+template <typename T>
+CGraphOrient<T>::CGraphOrient(const CGraphOrient& GraphOrient)
+    : GRASom(), GRAArc() {
+    try {
+
+        for (auto& sommet : GraphOrient.GRASom) {
+            CSommet<T>* newSommet = new CSommet<T>(*sommet);
+            GRASom.push_back(newSommet);
+        }
+
+        for (auto& arc : GraphOrient.GRAArc) {
+            CArc<T>* newArc = new CArc<T>(*arc);
+            GRAArc.push_back(newArc);
+        }
+    }
+    catch (const CException& e) {
+        cerr << "Erreur lors de la copie du graphe ! Code erreur : " << e.EXCGet_Val() << endl;
+    }
+}
+
+template <typename T>
+CGraphOrient<T>::~CGraphOrient() {
+    GRASom.clear();
+    GRAArc.clear();
+}
+
+template <typename T>
+void CGraphOrient<T>::CGraphOAjouterSommet(CSommet<T>* Som) {
+    try {
+        if (Som) {
+            for (const auto& s : GRASom) {
+                if (s == Som) {
+                    throw CException(6);
+                }
+            }
+            GRASom.push_back(Som);
+        }
+        else {
+            throw CException(3);
+        }
+    }
+    catch (const CException& e) {
+        if (e.EXCGet_Val() == 3) {
+            cerr << "Erreur : Sommet nul" << endl;
+        }
+        else if (e.EXCGet_Val() == 6) {
+            cerr << "Erreur : Le sommet existe deja dans le graphe" << endl;
+        }
+        else {
+            cerr << "Erreur inconnue" << endl;
+        }
+    }
+}
+
+template <typename T>
+void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
+    try {
+        if (!Arc) {
+            throw CException(4);
+        }
+        for (const auto& a : GRAArc) {
+            if (*a == *Arc) {
+                throw CException(6);
+            }
+        }
+        if (GRASom.empty() && GRAArc.empty()) {
+            GRASom.push_back(Arc->ARCGet_SomDeb());
+            GRASom.push_back(Arc->ARCGet_SomA());
+            GRAArc.push_back(Arc);
+        }
+        else {
+            bool sommet1Existe = false;
+            bool sommet2Existe = false;
+
+            for (auto& sommet : GRASom) {
+                if (sommet == Arc->ARCGet_SomDeb()) {
+                    sommet1Existe = true;
+                }
+                if (sommet == Arc->ARCGet_SomA()) {
+                    sommet2Existe = true;
+                }
+            }
+            if (sommet1Existe && !sommet2Existe) {
+                GRASom.push_back(Arc->ARCGet_SomA());
+                GRAArc.push_back(Arc);
+            }
+            else if (!sommet1Existe && sommet2Existe) {
+                GRASom.push_back(Arc->ARCGet_SomDeb());
+                GRAArc.push_back(Arc);
+            }
+            else if (!sommet1Existe && !sommet2Existe) {
+                throw CException(5);
+            }
+            else {
+                GRAArc.push_back(Arc);
+            }
+        }
+    }
+    catch (const CException& e) {
+        if (e.EXCGet_Val() == 4) {
+            cerr << "Erreur : L'arc est nul !" << endl;
+        }
+        else if (e.EXCGet_Val() == 5) {
+            cerr << "Erreur : Aucun des deux sommets n'existe dans le graphe !" << endl;
+        }
+        else if (e.EXCGet_Val() == 6) {
+            cerr << "Erreur : L'arc existe deja dans le graphe !" << endl;
+        }
+        else {
+            cerr << "Erreur inconnue lors de l'ajout de l'arc !" << endl;
+        }
+    }
+}
+
+template <typename T>
+vector<CSommet<T>*> CGraphOrient<T>::CGraphOGET_Sommet() const {
+    return GRASom;
+}
+
+template <typename T>
+const vector<CArc<T>*> CGraphOrient<T>::CGraphOGET_Arc() const {
+    return GRAArc;
+}
+
+template <typename T>
+vector<CArc<T>*>& CGraphOrient<T>::CGraphOGET_Arc() {
+    return GRAArc;
+}
+
+template <typename T>
+void CGraphOrient<T>::CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* nouveauSommet) {
+    try {
+        if (!nouveauSommet) {
+            throw CException(6);
+        }
+
+        CSommet<T>* ancienSommet = CGraphOChercherSommetParId(uiIdsom);
+        if (!ancienSommet) {
+            throw CException(7);
+        }
+
+        for (auto& arc : GRAArc) {
+            if (arc->ARCGet_SomDeb() == ancienSommet) {
+                arc->ARCModifierSomDeb(nouveauSommet);
+            }
+            if (arc->ARCGet_SomA() == ancienSommet) {
+                arc->ARCModifierSomA(nouveauSommet);
+            }
+        }
+
+        for (auto& sommet : GRASom) {
+            if (sommet == ancienSommet) {
+                sommet = nouveauSommet;
+                return;
+            }
+        }
+    }
+    catch (const CException& e) {
+        if (e.EXCGet_Val() == 6) {
+            cerr << "Erreur : Sommet invalide (nullptr)." << endl;
+        }
+        else if (e.EXCGet_Val() == 7) {
+            cerr << "Erreur : Sommet avec l'ID " << uiIdsom << " non trouve." << endl;
+        }
+        else {
+            cerr << "Erreur inconnue lors de la modification du sommet." << endl;
+        }
+    }
+}
+
+template <typename T>
+void CGraphOrient<T>::CGraphOModifierArc(CArc<T>* arcToModify, CArc<T>* newArc) {
+    try {
+        if (!newArc) {
+            throw CException(8);
+        }
+
+        for (auto& arc : GRAArc) {
+            if (*arc == *arcToModify) {
+                arc = newArc;
+                return;
+            }
+        }
+
+        throw CException(9);
+    }
+    catch (const CException& e) {
+        if (e.EXCGet_Val() == 8) {
+            cerr << "Erreur : Arc invalide" << endl;
+        } else{
+            cerr << "Erreur : Arc non trouve" << endl;
+        }
+    }
+}
+
+template <typename T>
+void CGraphOrient<T>::CGraphOSupprimerSommet(unsigned int uiIdsom) {
+    try {
+        CSommet<T>* sommetASupprimer = CGraphOChercherSommetParId(uiIdsom);
+        if (!sommetASupprimer) {
+            throw CException(10);
+        }
+
+        for (auto it = GRAArc.begin(); it != GRAArc.end(); ) {
+            if ((*it)->ARCGet_SomDeb() == sommetASupprimer || (*it)->ARCGet_SomA() == sommetASupprimer) {
+                it = GRAArc.erase(it);
+            }
+            else {
+                ++it;
+            }
+        }
+        auto it = find(GRASom.begin(), GRASom.end(), sommetASupprimer);
+        if (it != GRASom.end()) {
+            GRASom.erase(it);
+        }
+    }
+    catch (const CException& e) {
+        if (e.EXCGet_Val() == 10) {
+            cerr << "Erreur : Sommet avec l'ID " << uiIdsom << " non trouve." << endl;
+        }
+        else {
+            cerr << "Erreur inconnue lors de la suppression du sommet." << endl;
+        }
+    }
+}
+
+
+template <typename T>
+void CGraphOrient<T>::CGraphOSupprimerArc(CArc<T>* arcToDelete) {
+    for (auto it = GRAArc.begin(); it != GRAArc.end(); ++it) {
+        if (*it == arcToDelete) {
+            GRAArc.erase(it);
+            return;
+        }
+    }
+}
+
+template <typename T>
+CSommet<T>* CGraphOrient<T>::CGraphOChercherSommetParId(unsigned int uiIdsom) const {
+    for (auto& sommet : GRASom) {
+        if (sommet->SOMGet_Id() == uiIdsom) {
+            return sommet;
+        }
+    }
+    return nullptr;
+}
+
+
+template <typename T>
+CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sChemain) {
+    try {
+        ifstream fichier(sChemain);
+        if (!fichier.is_open()) {
+            throw CException(1001);
+        }
+        string ligne;
+        int nbSommets = 0;
+        int nbArcs = 0; 
+        vector<CSommet<T>*> sommets;
+        vector<CArc<T>*> arcs;
+
+        while (getline(fichier, ligne)) {
+            if (ligne.find("NBSommets=") != string::npos) {
+                nbSommets = std::stoi(ligne.substr(ligne.find("=") + 1));
+            }
+            else if (ligne.find("NBArcs=") != string::npos) {
+                nbArcs = std::stoi(ligne.substr(ligne.find("=") + 1));
+            }
+            else if (ligne.find("Sommets=[") != string::npos) {
+                while (std::getline(fichier, ligne) && ligne.find("]") == string::npos) {
+                    if (ligne.find("Numero=") != string::npos) {
+                        int numero = std::stoi(ligne.substr(ligne.find("=") + 1));
+                        sommets.push_back(new CSommet<T>(numero, {}, {}));
+                    }
+                }
+            }
+            else if (ligne.find("Arcs=[") != string::npos) {
+                while (getline(fichier, ligne) && ligne.find("]") == string::npos) {
+                    if (ligne.find("Debut=") != std::string::npos && ligne.find("Fin=") != string::npos) {
+                        int debut = stoi(ligne.substr(ligne.find("Debut=") + 6, ligne.find(",") - 6));
+                        int fin = stoi(ligne.substr(ligne.find("Fin=") + 4));
+                        CSommet<T>* sommetDebut = nullptr;
+                        CSommet<T>* sommetFin = nullptr;
+                        for (auto& sommet : sommets) {
+                            if (sommet->SOMGet_Id() == debut) {
+                                sommetDebut = sommet;
+                            }
+                            if (sommet->SOMGet_Id() == fin) {
+                                sommetFin = sommet;
+                            }
+                        }
+                        if (sommetDebut && sommetFin) {
+                            arcs.push_back(new CArc<T>(sommetDebut, sommetFin));
+                        }
+                        else {
+                            throw CException(1003); 
+                        }
+                    }
+                }
+            }
+        }
+        fichier.close();
+        return new CGraphOrient<T>(sommets, arcs);
+    }
+    catch (const CException& e) {
+        cerr << "Erreur (Code " << e.EXCGet_Val() << ") : ";
+        switch (e.EXCGet_Val()) {
+        case 1001:
+            cerr << "Impossible d'ouvrir le fichier." << endl;
+            break;
+        case 1003:
+            cerr << "Sommet introuvable lors de la création d'un arc." << endl;
+            break;
+        default:
+            cerr << "Erreur inconnue." << endl;
+            break;
+        }
+        return nullptr;
+    }
+}
+
+
+template <typename T>
+void CGraphOrient<T>::CGraphOAfficher() const {
+    cout << "=== Affichage du Graphe Oriente ===" << endl;
+    cout << "Nombre d'arcs : " << GRAArc.size() << endl;
+
+    if (GRAArc.empty()) {
+        cout << "Le graphe ne contient aucun arc." << endl;
+    }
+    else {
+        cout << "Relations entre sommets :" << endl;
+        for (const auto& arc : GRAArc) {
+            CSommet<T>* sommetDebut = arc->ARCGet_SomDeb();
+            CSommet<T>* sommetFin = arc->ARCGet_SomA();
+
+            if (sommetDebut && sommetFin) {
+                cout << "Sommet(" << sommetDebut->SOMGet_Id() << ") -----> Sommet(" << sommetFin->SOMGet_Id() << ")" << endl;
+            }
+            else {
+                cout << "Arc invalide (sommets manquants)." << endl;
+            }
+        }
+    }
+
+    cout << "=== Fin de l'Affichage ===" << endl;
+}
+
+template class CGraphOrient<int>;
+template class CGraphOrient<float>;
+template class CGraphOrient<double>;
+template class CGraphOrient<char>;
+template class CGraphOrient<bool>;
+template class CGraphOrient<string>;
+template class CGraphOrient<unsigned int>;
+template class CGraphOrient<long>;
+template class CGraphOrient<unsigned long>;
+template class CGraphOrient<short>;
+template class CGraphOrient<unsigned short>;
