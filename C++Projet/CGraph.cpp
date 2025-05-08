@@ -1,5 +1,9 @@
 #include "CGraph.h"
+#include "CArc.h"
+#include "CGraphOrient.h"
+#include "CSommet.h"
 #include "CException.h"
+#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -18,17 +22,20 @@ CGraph<T>::CGraph(const vector<CSommet<T>*>& sommet, const vector<CArc<T>*>& arc
 
             this->CGraphAjouterArret(currentArc);
 
-            CArc<T> arcInverse = ARCInverserArc(*currentArc);
+            CArc<T> arcInverse = CArc<T>::ARCInverserArc(*currentArc);
             this->CGraphAjouterArret(new CArc<T>(arcInverse));
         }
     }
     catch (const CException& e) {
-        cerr << "Erreur lors de la construction d'un graphe non orienté : " << e.EXCGet_Val() << endl;
+        cerr << "Erreur lors de la construction d'un graphe non oriente : " << e.EXCGet_Val() << endl;
     }
 }
 
 template <typename T>
 CGraph<T>::CGraph(const CGraph<T>& graph) : CGraphOrient<T>(graph) {}
+
+template <typename T>
+CGraph<T>::~CGraph() {}
 
 template <typename T>
 void CGraph<T>::CGraphAjouterArret(CArc<T>* Arret) {
@@ -54,14 +61,12 @@ void CGraph<T>::CGraphAjouterArret(CArc<T>* Arret) {
 
         this->CGraphOAjouterArc(Arret);
 
-        CArc<T> arcInverse = ARCInverserArc(*Arret);
+        CArc<T> arcInverse = CArc<T>::ARCInverserArc(*Arret);
         this->CGraphOAjouterArc(new CArc<T>(arcInverse));
 
-        std::cout << "Arête ajoutée entre les sommets " << sommetDeb->SOMGet_Id()
-            << " et " << sommetFin->SOMGet_Id() << std::endl;
     }
     catch (const CException& e) {
-        std::cerr << "Erreur lors de l'ajout d'une arête : " << e.EXCGet_Val() << std::endl;
+        std::cerr << "Erreur lors de l'ajout d'une arete : " << e.EXCGet_Val() << std::endl;
     }
 }
 
@@ -75,25 +80,23 @@ void CGraph<T>::CGraphModifierArret(CArc<T>* ArretActuel, CArc<T>* NouvelArret) 
         CGraphSupprimerArret(ArretActuel);
         CGraphAjouterArret(NouvelArret);
 
-        cout << "Arête modifiée avec succès." << endl;
     }
     catch (const CException& e) {
-        cerr << "Erreur lors de la modification d'une arête : " << e.EXCGet_Val() << endl;
+        cerr << "Erreur lors de la modification d'une arete : " << e.EXCGet_Val() << endl;
     }
 }
 
-// Méthode pour supprimer une arête existante
+
 template <typename T>
 void CGraph<T>::CGraphSupprimerArret(CArc<T>* Arret) {
     try {
         if (!Arret) {
             throw CException(4);
         }
-
         unsigned int sommetDebId = Arret->ARCGet_SomDeb()->SOMGet_Id();
         unsigned int sommetFinId = Arret->ARCGet_SomA()->SOMGet_Id();
 
-        CArc<T> arcInverse = ARCInverserArc(*Arret);
+        CArc<T> arcInverse = CArc<T>::ARCInverserArc(*Arret);
 
         auto& arcs = this->CGraphOGET_Arc();
         arcs.erase(remove_if(arcs.begin(), arcs.end(),
@@ -101,37 +104,60 @@ void CGraph<T>::CGraphSupprimerArret(CArc<T>* Arret) {
                 return (*arc == *Arret || *arc == arcInverse);
             }),
             arcs.end());
-
-        cout << "Arête supprimée entre les sommets " << sommetDebId
-            << " et " << sommetFinId << std::endl;
     }
     catch (const CException& e) {
-        cerr << "Erreur lors de la suppression d'une arête : " << e.EXCGet_Val() << endl;
+        cerr << "Erreur lors de la suppression d'une arete : " << e.EXCGet_Val() << endl;
     }
 }
+
+
 
 template <typename T>
 void CGraph<T>::CGraphAfficher() {
-    cout << "=== Affichage du Graphe Non Orienté ===" << endl;
-
+    cout << "=== Affichage du Graphe Non Oriente ===" << endl;
     if (this->CGraphOGET_Arc().empty()) {
-        cout << "Le graphe ne contient aucune arête." << endl;
+        cout << "Le graphe ne contient aucune arete." << endl;
     }
     else {
-        cout << "Relations entre sommets (arêtes) :" << endl;
+        cout << "Relations entre sommets (aretes) :" << endl;
+        vector<CArc<T>*> arcsAffiches;
         for (const auto& arc : this->CGraphOGET_Arc()) {
-            CSommet<T>* sommetDebut = arc->ARCGet_SomDeb();
-            CSommet<T>* sommetFin = arc->ARCGet_SomA();
-
-            if (sommetDebut && sommetFin) {
-                cout << "Sommet(" << sommetDebut->SOMGet_Id() << ") <-----> Sommet("
-                    << sommetFin->SOMGet_Id() << ")" << endl;
+            bool dejaAffiche = false;
+            for (const auto& arcAffiche : arcsAffiches) {
+                if ((arcAffiche->ARCGet_SomDeb() == arc->ARCGet_SomDeb() &&
+                    arcAffiche->ARCGet_SomA() == arc->ARCGet_SomA()) ||
+                    (arcAffiche->ARCGet_SomDeb() == arc->ARCGet_SomA() &&
+                        arcAffiche->ARCGet_SomA() == arc->ARCGet_SomDeb())) {
+                    dejaAffiche = true;
+                    break;
+                }
             }
-            else {
-                cout << "Arête invalide (sommets manquants)." << endl;
+            if (!dejaAffiche) {
+                CSommet<T>* sommetDebut = arc->ARCGet_SomDeb();
+                CSommet<T>* sommetFin = arc->ARCGet_SomA();
+
+                if (sommetDebut && sommetFin) {
+                    cout << "Sommet(" << sommetDebut->SOMGet_Id() << ") <-----> Sommet("
+                        << sommetFin->SOMGet_Id() << ")" << endl;
+                    arcsAffiches.push_back(arc);
+                }
+                else {
+                    cout << "Arete invalide (sommets manquants)." << endl;
+                }
             }
         }
     }
-
     cout << "=== Fin de l'Affichage ===" << endl;
 }
+
+template class CGraph<int>;
+template class CGraph<float>;
+template class CGraph<double>;
+template class CGraph<char>;
+template class CGraph<bool>;
+template class CGraph<std::string>;
+template class CGraph<unsigned int>;
+template class CGraph<long>;
+template class CGraph<unsigned long>;
+template class CGraph<short>;
+template class CGraph<unsigned short>;

@@ -48,7 +48,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : Les ressources allouées sont libérées
     /***********************************************************/
-    ~CGraph() {}
+    ~CGraph();
 
     /***********************************************************
     /* Ajouter une arête

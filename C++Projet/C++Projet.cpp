@@ -63,15 +63,11 @@ int main() {
         graph.CGraphOModifierArc(arc2, nouvelArc);
         graph.CGraphOAfficher();
 
-        // Libération de la mémoire
-        delete sommet1;
-        delete sommet2;
-        delete sommet3;
-        delete sommetNouveau;
         delete arc1;
         delete arc2;
         delete arc3;
-        delete nouvelArc;
+
+
     }
     catch (const CException& e) {
         cerr << "Erreur capturée dans le main : " << e.EXCGet_Val() << endl;

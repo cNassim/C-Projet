@@ -85,15 +85,27 @@ class CGraphOrient
 		/***********************************************************/  
 		vector<CSommet<T>*> CGraphOGET_Sommet() const;
 
-		/***********************************************************  
+        /***********************************************************  
 		/* CGraphOGET_Arc  
 		/***********************************************************  
-		/* Entr�e : Rien  
-		/* N�cessite : Rien  
+		/* Entrée : Rien  
+		/* Nécessite : Rien  
 		/* Sortie : Un vecteur contenant les arcs du graphe  
-		/* Entra�ne : Aucun effet de bord  
+		/* Entraîne : Aucun effet de bord  
 		/***********************************************************/  
-		vector<CArc<T>*> CGraphOGET_Arc() const;
+		const vector<CArc<T>*> CGraphOGET_Arc() const;
+
+		/***********************************************************  
+		/* CGraphOGET_Arc (surcharge)  
+		/***********************************************************  
+		/* Entrée : Rien  
+		/* Nécessite : Rien  
+		/* Sortie : Une référence vers un vecteur contenant les arcs du graphe  
+		/* Entraîne : Aucun effet de bord  
+		/***********************************************************/  
+		vector<CArc<T>*>& CGraphOGET_Arc();
+
+
 
 		/***********************************************************  
 		/* CGraphOModifierSommet  

@@ -59,7 +59,7 @@ inline void CArc<T>::ARCAfficher() {
 }
 
 template <typename T>
-inline CArc<T> CArc<T>::ARCInverserArc(const CArc<T>& arc) {
+CArc<T> CArc<T>::ARCInverserArc(CArc<T>& arc) {
     CSommet<T>* SommetDeb = arc.ARCGet_SomDeb();
     CSommet<T>* SommetA = arc.ARCGet_SomA();      
 
@@ -76,3 +76,11 @@ bool CArc<T>::operator==(const CArc<T>& other) const {
 template class CArc<int>;
 template class CArc<float>;
 template class CArc<double>;
+template class CArc<char>;
+template class CArc<bool>;
+template class CArc<string>;
+template class CArc<unsigned int>;
+template class CArc<long>;
+template class CArc<unsigned long>;
+template class CArc<short>;
+template class CArc<unsigned short>;

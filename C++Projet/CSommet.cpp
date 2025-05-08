@@ -155,7 +155,14 @@ inline void CSommet<T>::SOMAfficher() {
     }
 }
 
-// Instanciation explicite pour les types les plus utilisés
 template class CSommet<int>;
 template class CSommet<float>;
 template class CSommet<double>;
+template class CSommet<char>;
+template class CSommet<bool>;
+template class CSommet<string>;
+template class CSommet<unsigned int>;
+template class CSommet<long>;
+template class CSommet<unsigned long>;
+template class CSommet<short>;
+template class CSommet<unsigned short>;

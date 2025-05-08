@@ -127,17 +127,12 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
                 throw CException(6);
             }
         }
-
-        // Si le graphe est vide, on ajoute les deux sommets et l'arc
         if (GRASom.empty() && GRAArc.empty()) {
             GRASom.push_back(Arc->ARCGet_SomDeb());
             GRASom.push_back(Arc->ARCGet_SomA());
             GRAArc.push_back(Arc);
-            cout << "Arc ajoute : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
-                << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
         }
         else {
-            // Vérification si au moins un des sommets de l'arc existe déjà
             bool sommet1Existe = false;
             bool sommet2Existe = false;
 
@@ -149,27 +144,19 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
                     sommet2Existe = true;
                 }
             }
-
-            // Si un sommet existe, ajouter l'autre sommet manquant
             if (sommet1Existe && !sommet2Existe) {
                 GRASom.push_back(Arc->ARCGet_SomA());
                 GRAArc.push_back(Arc);
-                cout << "Arc ajoute : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
-                    << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
             }
             else if (!sommet1Existe && sommet2Existe) {
                 GRASom.push_back(Arc->ARCGet_SomDeb());
                 GRAArc.push_back(Arc);
-                cout << "Arc ajoute : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
-                    << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
             }
             else if (!sommet1Existe && !sommet2Existe) {
-                throw CException(5); // Aucun des deux sommets n'existe
+                throw CException(5);
             }
             else {
                 GRAArc.push_back(Arc);
-                cout << "Arc ajoute : De " << Arc->ARCGet_SomDeb()->SOMGet_Id()
-                    << " vers " << Arc->ARCGet_SomA()->SOMGet_Id() << endl;
             }
         }
     }
@@ -181,7 +168,7 @@ void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
             cerr << "Erreur : Aucun des deux sommets n'existe dans le graphe !" << endl;
         }
         else if (e.EXCGet_Val() == 6) {
-            cerr << "Erreur : L'arc existe déjà dans le graphe !" << endl;
+            cerr << "Erreur : L'arc existe deja dans le graphe !" << endl;
         }
         else {
             cerr << "Erreur inconnue lors de l'ajout de l'arc !" << endl;
@@ -195,8 +182,13 @@ vector<CSommet<T>*> CGraphOrient<T>::CGraphOGET_Sommet() const {
 }
 
 template <typename T>
-vector<CArc<T>*> CGraphOrient<T>::CGraphOGET_Arc() const {
+const vector<CArc<T>*> CGraphOrient<T>::CGraphOGET_Arc() const {
     return GRAArc;
+}
+
+template <typename T>
+vector<CArc<T>*>& CGraphOrient<T>::CGraphOGET_Arc() {
+    return GRAArc; // Retourne une référence
 }
 
 template <typename T>
@@ -276,7 +268,6 @@ void CGraphOrient<T>::CGraphOSupprimerSommet(unsigned int uiIdsom) {
 
         for (auto it = GRAArc.begin(); it != GRAArc.end(); ) {
             if ((*it)->ARCGet_SomDeb() == sommetASupprimer || (*it)->ARCGet_SomA() == sommetASupprimer) {
-                delete* it;
                 it = GRAArc.erase(it);
             }
             else {
@@ -285,7 +276,6 @@ void CGraphOrient<T>::CGraphOSupprimerSommet(unsigned int uiIdsom) {
         }
         auto it = find(GRASom.begin(), GRASom.end(), sommetASupprimer);
         if (it != GRASom.end()) {
-            delete* it;
             GRASom.erase(it);
         }
     }
@@ -304,7 +294,6 @@ template <typename T>
 void CGraphOrient<T>::CGraphOSupprimerArc(CArc<T>* arcToDelete) {
     for (auto it = GRAArc.begin(); it != GRAArc.end(); ++it) {
         if (*it == arcToDelete) {
-            delete* it;
             GRAArc.erase(it);
             return;
         }
@@ -350,3 +339,11 @@ void CGraphOrient<T>::CGraphOAfficher() const {
 template class CGraphOrient<int>;
 template class CGraphOrient<float>;
 template class CGraphOrient<double>;
+template class CGraphOrient<char>;
+template class CGraphOrient<bool>;
+template class CGraphOrient<string>;
+template class CGraphOrient<unsigned int>;
+template class CGraphOrient<long>;
+template class CGraphOrient<unsigned long>;
+template class CGraphOrient<short>;
+template class CGraphOrient<unsigned short>;
