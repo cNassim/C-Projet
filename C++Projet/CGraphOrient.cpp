@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -15,8 +16,8 @@ CGraphOrient<T>::CGraphOrient() : GRASom(), GRAArc() {
 }
 
 template <typename T>
-CGraphOrient<T>::CGraphOrient(const vector<CSommet<T>*>& sommet, const vector<CArc<T>*>& arc)
-    : GRASom(sommet), GRAArc(arc) {
+CGraphOrient<T>::CGraphOrient(const vector<CSommet<T>*>& pSommet, const vector<CArc<T>*>& pArc)
+    : GRASom(pSommet), GRAArc(pArc) {
     try {
         for (auto& Arc : GRAArc) {
             if (!Arc) {
@@ -66,13 +67,13 @@ CGraphOrient<T>::CGraphOrient(const CGraphOrient& GraphOrient)
     try {
 
         for (auto& sommet : GraphOrient.GRASom) {
-            CSommet<T>* newSommet = new CSommet<T>(*sommet);
-            GRASom.push_back(newSommet);
+            CSommet<T>* pNewSommet = new CSommet<T>(*sommet);
+            GRASom.push_back(pNewSommet);
         }
 
         for (auto& arc : GraphOrient.GRAArc) {
-            CArc<T>* newArc = new CArc<T>(*arc);
-            GRAArc.push_back(newArc);
+            CArc<T>* pNewArc = new CArc<T>(*arc);
+            GRAArc.push_back(pNewArc);
         }
     }
     catch (const CException& e) {
@@ -87,15 +88,15 @@ CGraphOrient<T>::~CGraphOrient() {
 }
 
 template <typename T>
-void CGraphOrient<T>::CGraphOAjouterSommet(CSommet<T>* Som) {
+void CGraphOrient<T>::CGraphOAjouterSommet(CSommet<T>* pSom) {
     try {
-        if (Som) {
+        if (pSom) {
             for (const auto& s : GRASom) {
-                if (s == Som) {
+                if (s == pSom) {
                     throw CException(6);
                 }
             }
-            GRASom.push_back(Som);
+            GRASom.push_back(pSom);
         }
         else {
             throw CException(3);
@@ -115,46 +116,46 @@ void CGraphOrient<T>::CGraphOAjouterSommet(CSommet<T>* Som) {
 }
 
 template <typename T>
-void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* Arc) {
+void CGraphOrient<T>::CGraphOAjouterArc(CArc<T>* pArc) {
     try {
-        if (!Arc) {
+        if (!pArc) {
             throw CException(4);
         }
         for (const auto& a : GRAArc) {
-            if (*a == *Arc) {
+            if (*a == *pArc) {
                 throw CException(6);
             }
         }
         if (GRASom.empty() && GRAArc.empty()) {
-            GRASom.push_back(Arc->ARCGet_SomDeb());
-            GRASom.push_back(Arc->ARCGet_SomA());
-            GRAArc.push_back(Arc);
+            GRASom.push_back(pArc->ARCGet_SomDeb());
+            GRASom.push_back(pArc->ARCGet_SomA());
+            GRAArc.push_back(pArc);
         }
         else {
             bool sommet1Existe = false;
             bool sommet2Existe = false;
 
             for (auto& sommet : GRASom) {
-                if (sommet == Arc->ARCGet_SomDeb()) {
+                if (sommet == pArc->ARCGet_SomDeb()) {
                     sommet1Existe = true;
                 }
-                if (sommet == Arc->ARCGet_SomA()) {
+                if (sommet == pArc->ARCGet_SomA()) {
                     sommet2Existe = true;
                 }
             }
             if (sommet1Existe && !sommet2Existe) {
-                GRASom.push_back(Arc->ARCGet_SomA());
-                GRAArc.push_back(Arc);
+                GRASom.push_back(pArc->ARCGet_SomA());
+                GRAArc.push_back(pArc);
             }
             else if (!sommet1Existe && sommet2Existe) {
-                GRASom.push_back(Arc->ARCGet_SomDeb());
-                GRAArc.push_back(Arc);
+                GRASom.push_back(pArc->ARCGet_SomDeb());
+                GRAArc.push_back(pArc);
             }
             else if (!sommet1Existe && !sommet2Existe) {
                 throw CException(5);
             }
             else {
-                GRAArc.push_back(Arc);
+                GRAArc.push_back(pArc);
             }
         }
     }
@@ -190,29 +191,29 @@ vector<CArc<T>*>& CGraphOrient<T>::CGraphOGET_Arc() {
 }
 
 template <typename T>
-void CGraphOrient<T>::CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* nouveauSommet) {
+void CGraphOrient<T>::CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* pNouveauSommet) {
     try {
-        if (!nouveauSommet) {
+        if (!pNouveauSommet) {
             throw CException(6);
         }
 
-        CSommet<T>* ancienSommet = CGraphOChercherSommetParId(uiIdsom);
-        if (!ancienSommet) {
+        CSommet<T>* pAncienSommet = CGraphOChercherSommetParId(uiIdsom);
+        if (!pAncienSommet) {
             throw CException(7);
         }
 
         for (auto& arc : GRAArc) {
-            if (arc->ARCGet_SomDeb() == ancienSommet) {
-                arc->ARCModifierSomDeb(nouveauSommet);
+            if (arc->ARCGet_SomDeb() == pAncienSommet) {
+                arc->ARCModifierSomDeb(pNouveauSommet);
             }
-            if (arc->ARCGet_SomA() == ancienSommet) {
-                arc->ARCModifierSomA(nouveauSommet);
+            if (arc->ARCGet_SomA() == pAncienSommet) {
+                arc->ARCModifierSomA(pNouveauSommet);
             }
         }
 
         for (auto& sommet : GRASom) {
-            if (sommet == ancienSommet) {
-                sommet = nouveauSommet;
+            if (sommet == pAncienSommet) {
+                sommet = pNouveauSommet;
                 return;
             }
         }
@@ -231,15 +232,15 @@ void CGraphOrient<T>::CGraphOModifierSommet(unsigned int uiIdsom, CSommet<T>* no
 }
 
 template <typename T>
-void CGraphOrient<T>::CGraphOModifierArc(CArc<T>* arcToModify, CArc<T>* newArc) {
+void CGraphOrient<T>::CGraphOModifierArc(CArc<T>* pArcToModify, CArc<T>* pNewArc) {
     try {
-        if (!newArc) {
+        if (!pNewArc) {
             throw CException(8);
         }
 
         for (auto& arc : GRAArc) {
-            if (*arc == *arcToModify) {
-                arc = newArc;
+            if (*arc == *pArcToModify) {
+                arc = pNewArc;
                 return;
             }
         }
@@ -258,20 +259,20 @@ void CGraphOrient<T>::CGraphOModifierArc(CArc<T>* arcToModify, CArc<T>* newArc) 
 template <typename T>
 void CGraphOrient<T>::CGraphOSupprimerSommet(unsigned int uiIdsom) {
     try {
-        CSommet<T>* sommetASupprimer = CGraphOChercherSommetParId(uiIdsom);
-        if (!sommetASupprimer) {
+        CSommet<T>* pSommetASupprimer = CGraphOChercherSommetParId(uiIdsom);
+        if (!pSommetASupprimer) {
             throw CException(10);
         }
 
         for (auto it = GRAArc.begin(); it != GRAArc.end(); ) {
-            if ((*it)->ARCGet_SomDeb() == sommetASupprimer || (*it)->ARCGet_SomA() == sommetASupprimer) {
+            if ((*it)->ARCGet_SomDeb() == pSommetASupprimer || (*it)->ARCGet_SomA() == pSommetASupprimer) {
                 it = GRAArc.erase(it);
             }
             else {
                 ++it;
             }
         }
-        auto it = find(GRASom.begin(), GRASom.end(), sommetASupprimer);
+        auto it = find(GRASom.begin(), GRASom.end(), pSommetASupprimer);
         if (it != GRASom.end()) {
             GRASom.erase(it);
         }
@@ -288,9 +289,9 @@ void CGraphOrient<T>::CGraphOSupprimerSommet(unsigned int uiIdsom) {
 
 
 template <typename T>
-void CGraphOrient<T>::CGraphOSupprimerArc(CArc<T>* arcToDelete) {
+void CGraphOrient<T>::CGraphOSupprimerArc(CArc<T>* pArcToDelete) {
     for (auto it = GRAArc.begin(); it != GRAArc.end(); ++it) {
-        if (*it == arcToDelete) {
+        if (*it == pArcToDelete) {
             GRAArc.erase(it);
             return;
         }
@@ -309,60 +310,119 @@ CSommet<T>* CGraphOrient<T>::CGraphOChercherSommetParId(unsigned int uiIdsom) co
 
 
 template <typename T>
-CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sChemain) {
+CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sNomFichier) {
     try {
-        ifstream fichier(sChemain);
+        ifstream fichier(sNomFichier);
         if (!fichier.is_open()) {
-            throw CException(1001);
+            throw CException(1001); // Erreur : Fichier introuvable
         }
-        string ligne;
-        int nbSommets = 0;
-        int nbArcs = 0; 
-        vector<CSommet<T>*> sommets;
-        vector<CArc<T>*> arcs;
 
-        while (getline(fichier, ligne)) {
-            if (ligne.find("NBSommets=") != string::npos) {
-                nbSommets = std::stoi(ligne.substr(ligne.find("=") + 1));
-            }
-            else if (ligne.find("NBArcs=") != string::npos) {
-                nbArcs = std::stoi(ligne.substr(ligne.find("=") + 1));
-            }
-            else if (ligne.find("Sommets=[") != string::npos) {
-                while (std::getline(fichier, ligne) && ligne.find("]") == string::npos) {
-                    if (ligne.find("Numero=") != string::npos) {
-                        int numero = std::stoi(ligne.substr(ligne.find("=") + 1));
-                        sommets.push_back(new CSommet<T>(numero, {}, {}));
-                    }
+        string sLigne;
+        int iNbSommets = 0;
+        int iNbArcs = 0;
+        vector<CSommet<T>*> pSommets;
+        vector<CArc<T>*> pArcs;
+
+        while (getline(fichier, sLigne)) {
+            // Supprimer les espaces inutiles autour de la sLigne
+            sLigne.erase(remove(sLigne.begin(), sLigne.end(), ' '), sLigne.end());
+
+            if (sLigne.find("NBSommets=") != string::npos) {
+                string sVal = sLigne.substr(sLigne.find("=") + 1);
+                if (!std::all_of(sVal.begin(), sVal.end(), ::isdigit)) {
+                    throw CException(2001); // Format invalide pour NBSommets
+                }
+                iNbSommets = std::stoi(sVal);
+                if (iNbSommets <= 0) {
+                    throw CException(2001); // NBSommets doit être un entier positif
                 }
             }
-            else if (ligne.find("Arcs=[") != string::npos) {
-                while (getline(fichier, ligne) && ligne.find("]") == string::npos) {
-                    if (ligne.find("Debut=") != std::string::npos && ligne.find("Fin=") != string::npos) {
-                        int debut = stoi(ligne.substr(ligne.find("Debut=") + 6, ligne.find(",") - 6));
-                        int fin = stoi(ligne.substr(ligne.find("Fin=") + 4));
-                        CSommet<T>* sommetDebut = nullptr;
-                        CSommet<T>* sommetFin = nullptr;
-                        for (auto& sommet : sommets) {
-                            if (sommet->SOMGet_Id() == debut) {
-                                sommetDebut = sommet;
+            else if (sLigne.find("NBArcs=") != string::npos) {
+                string sVal = sLigne.substr(sLigne.find("=") + 1);
+                if (!std::all_of(sVal.begin(), sVal.end(), ::isdigit)) {
+                    throw CException(2002); // Format inValide pour NBArcs
+                }
+                iNbArcs = std::stoi(sVal);
+                if (iNbArcs < 0) {
+                    throw CException(2002); // NBArcs doit être un entier positif ou nul
+                }
+            }
+            else if (sLigne.find("Sommets=[") != string::npos) {
+                while (getline(fichier, sLigne) && sLigne.find("]") == string::npos) {
+                    sLigne.erase(remove(sLigne.begin(), sLigne.end(), ' '), sLigne.end());
+                    if (sLigne.find("Numero=") != string::npos) {
+                        string sVal = sLigne.substr(sLigne.find("=") + 1);
+                        if (!std::all_of(sVal.begin(), sVal.end(), ::isdigit)) {
+                            throw CException(2003); // Format insValide pour un sommet
+                        }
+                        int numero = std::stoi(sVal);
+                        if (numero <= 0) {
+                            throw CException(2003); // Numero doit être un entier positif
+                        }
+                        pSommets.push_back(new CSommet<T>(numero, {}, {}));
+                    }
+                    else {
+                        throw CException(2004); // Ligne inattendue dans Sommets
+                    }
+                }
+                if (sLigne.find("]") == string::npos) {
+                    throw CException(2004); // Section Sommets mal fermée
+                }
+            }
+            else if (sLigne.find("Arcs=[") != string::npos) {
+                while (getline(fichier, sLigne) && sLigne.find("]") == string::npos) {
+                    sLigne.erase(remove(sLigne.begin(), sLigne.end(), ' '), sLigne.end());
+                    if (sLigne.find("Debut=") != string::npos && sLigne.find("Fin=") != string::npos) {
+                        string sDebutStr = sLigne.substr(sLigne.find("Debut=") + 6, sLigne.find(",") - 6);
+                        string sFinStr = sLigne.substr(sLigne.find("Fin=") + 4);
+                        if (!std::all_of(sDebutStr.begin(), sDebutStr.end(), ::isdigit) || !std::all_of(sFinStr.begin(), sFinStr.end(), ::isdigit)) {
+                            throw CException(2005); // Format inValide pour un arc
+                        }
+                        int iDebut = std::stoi(sDebutStr);
+                        int iFin = std::stoi(sFinStr);
+
+                        CSommet<T>* pSommetDebut = nullptr;
+                        CSommet<T>* pSommetFin = nullptr;
+                        for (auto& sommet : pSommets) {
+                            if (sommet->SOMGet_Id() == iDebut) {
+                                pSommetDebut = sommet;
                             }
-                            if (sommet->SOMGet_Id() == fin) {
-                                sommetFin = sommet;
+                            if (sommet->SOMGet_Id() == iFin) {
+                                pSommetFin = sommet;
                             }
                         }
-                        if (sommetDebut && sommetFin) {
-                            arcs.push_back(new CArc<T>(sommetDebut, sommetFin));
+                        if (pSommetDebut && pSommetFin) {
+                            pArcs.push_back(new CArc<T>(pSommetDebut, pSommetFin));
                         }
                         else {
-                            throw CException(1003); 
+                            throw CException(1003); // Sommet introuvable
                         }
                     }
+                    else {
+                        throw CException(2006); // Ligne inattendue dans Arcs
+                    }
+                }
+                if (sLigne.find("]") == string::npos) {
+                    throw CException(2006); // Section Arcs mal fermée
                 }
             }
+            else if (!sLigne.empty()) {
+                // Ligne inattendue en dehors des sections définies
+                throw CException(2007);
+            }
         }
+
         fichier.close();
-        return new CGraphOrient<T>(sommets, arcs);
+
+        // Vérification des totaux
+        if (static_cast<int>(pSommets.size()) != iNbSommets) {
+            throw CException(2008); // Nombre de sommets incorrect
+        }
+        if (static_cast<int>(pArcs.size()) != iNbArcs) {
+            throw CException(2009); // Nombre d'arcs incorrect
+        }
+
+        return new CGraphOrient<T>(pSommets, pArcs);
     }
     catch (const CException& e) {
         cerr << "Erreur (Code " << e.EXCGet_Val() << ") : ";
@@ -373,6 +433,33 @@ CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sChemain) {
         case 1003:
             cerr << "Sommet introuvable lors de la création d'un arc." << endl;
             break;
+        case 2001:
+            cerr << "Format inValide pour le nombre de sommets (NBSommets)." << endl;
+            break;
+        case 2002:
+            cerr << "Format invalide pour le nombre d'arcs (NBArcs)." << endl;
+            break;
+        case 2003:
+            cerr << "Format invalide pour un sommet dans la section Sommets." << endl;
+            break;
+        case 2004:
+            cerr << "Ligne inattendue dans la section Sommets." << endl;
+            break;
+        case 2005:
+            cerr << "Format invalide pour un arc dans la section Arcs." << endl;
+            break;
+        case 2006:
+            cerr << "Ligne inattendue dans la section Arcs." << endl;
+            break;
+        case 2007:
+            cerr << "Ligne inattendue en dehors des sections définies." << endl;
+            break;
+        case 2008:
+            cerr << "Le nombre de sommets ne correspond pas à la déclaration (NBSommets)." << endl;
+            break;
+        case 2009:
+            cerr << "Le nombre d'arcs ne correspond pas à la déclaration (NBArcs)." << endl;
+            break;
         default:
             cerr << "Erreur inconnue." << endl;
             break;
@@ -381,6 +468,25 @@ CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sChemain) {
     }
 }
 
+template <typename T>
+CGraphOrient<T>* CGraphOrient<T>::CGraphOInverse() const {
+    CGraphOrient<T>* pGrapheInverse = new CGraphOrient<T>();
+    for (CSommet<T>* pSommet : GRASom) {
+        pGrapheInverse->CGraphOAjouterSommet(new CSommet<T>(pSommet->SOMGet_Id(), {}, {}));
+    }
+    for (CArc<T>* pArc : GRAArc) {
+        CSommet<T>* pSommetDebut = pGrapheInverse->CGraphOChercherSommetParId(pArc->ARCGet_SomA()->SOMGet_Id());
+        CSommet<T>* pSommetFin = pGrapheInverse->CGraphOChercherSommetParId(pArc->ARCGet_SomDeb()->SOMGet_Id());
+        if (!pSommetDebut || !pSommetFin) {
+            cerr << "Erreur : Sommets manquants dans l'arc." << std::endl;
+            continue;
+        }
+
+        CArc<T>* pArcInverse = new CArc<T>(pSommetDebut, pSommetFin);
+        pGrapheInverse->CGraphOAjouterArc(pArcInverse);
+    }
+    return pGrapheInverse;
+}
 
 template <typename T>
 void CGraphOrient<T>::CGraphOAfficher() const {
@@ -393,11 +499,11 @@ void CGraphOrient<T>::CGraphOAfficher() const {
     else {
         cout << "Relations entre sommets :" << endl;
         for (const auto& arc : GRAArc) {
-            CSommet<T>* sommetDebut = arc->ARCGet_SomDeb();
-            CSommet<T>* sommetFin = arc->ARCGet_SomA();
+            CSommet<T>* psommetDebut = arc->ARCGet_SomDeb();
+            CSommet<T>* psommetFin = arc->ARCGet_SomA();
 
-            if (sommetDebut && sommetFin) {
-                cout << "Sommet(" << sommetDebut->SOMGet_Id() << ") -----> Sommet(" << sommetFin->SOMGet_Id() << ")" << endl;
+            if (psommetDebut && psommetFin) {
+                cout << "Sommet(" << psommetDebut->SOMGet_Id() << ") -----> Sommet(" << psommetFin->SOMGet_Id() << ")" << endl;
             }
             else {
                 cout << "Arc invalide (sommets manquants)." << endl;

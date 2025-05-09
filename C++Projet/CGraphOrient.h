@@ -175,6 +175,16 @@ class CGraphOrient
 		/* Sortie : Un pointeur vers un objet CGraphOrient initialisé avec les données du fichier
 		/* Entraîne : Le graphe est construit à partir des données du fichier
 		/***********************************************************/
-		static CGraphOrient<T>* CGraphOLireFichier(const string& sChemain);
+		static CGraphOrient<T>* CGraphOLireFichier(const string& sNomFichier);
 		
+		/***********************************************************
+		/* CGraphOInverse
+		/***********************************************************
+		/* Entrée : Rien
+		/* Nécessite : Rien
+		/* Sortie : Un pointeur vers un nouveau graphe avec tous les arcs inversés
+		/* Entraîne : Aucun effet sur le graphe original
+		/***********************************************************/
+		CGraphOrient<T>* CGraphOInverse() const;
+				
 };
