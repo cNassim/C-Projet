@@ -140,6 +140,10 @@
     <ClInclude Include="CGraph.h" />
     <ClInclude Include="CGraphOrient.h" />
     <ClInclude Include="CSommet.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\OneDrive\Documents\graph.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

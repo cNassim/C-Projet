@@ -8,7 +8,12 @@ using namespace std;
 template <typename T>
 class CGraph : public CGraphOrient<T>
 {
-    // MÉTHODES
+private:
+    using CGraphOrient<T>::CGraphOInverse;
+    using CGraphOrient<T>::CGraphOAfficher;
+    using CGraphOrient<T>::CGraphOLireFichier;
+
+// MÉTHODES
 public:
     /***********************************************************
     /* CGraph (constructeur par défaut)
