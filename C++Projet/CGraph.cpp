@@ -12,18 +12,18 @@ template <typename T>
 CGraph<T>::CGraph() : CGraphOrient<T>() {}
 
 template <typename T>
-CGraph<T>::CGraph(const vector<CSommet<T>*>& sommet, const vector<CArc<T>*>& arc)
-    : CGraphOrient<T>(sommet, {}) {
+CGraph<T>::CGraph(const vector<CSommet<T>*>& Sommet, const vector<CArc<T>*>& Arc)
+    : CGraphOrient<T>(Sommet, {}) {
     try {
-        for (const auto& currentArc : arc) {
+        for (const auto& currentArc : Arc) {
             if (!currentArc) {
                 throw CException(4);
             }
 
             this->CGraphAjouterArret(currentArc);
 
-            CArc<T> arcInverse = CArc<T>::ARCInverserArc(*currentArc);
-            this->CGraphAjouterArret(new CArc<T>(arcInverse));
+            CArc<T> ARCInverse = CArc<T>::ARCInverserArc(*currentArc);
+            this->CGraphAjouterArret(new CArc<T>(ARCInverse));
         }
     }
     catch (const CException& e) {
@@ -38,47 +38,47 @@ template <typename T>
 CGraph<T>::~CGraph() {}
 
 template <typename T>
-void CGraph<T>::CGraphAjouterArret(CArc<T>* Arret) {
+void CGraph<T>::CGraphAjouterArret(CArc<T>* pArret) {
     try {
-        if (!Arret) {
+        if (!pArret) {
             throw CException(4);
         }
 
-        unsigned int sommetDebId = Arret->ARCGet_SomDeb()->SOMGet_Id();
-        unsigned int sommetFinId = Arret->ARCGet_SomA()->SOMGet_Id();
+        unsigned int uiSommetDebId = pArret->ARCGet_SomDeb()->SOMGet_Id();
+        unsigned int uiSommetFinId = pArret->ARCGet_SomA()->SOMGet_Id();
 
-        CSommet<T>* sommetDeb = this->CGraphOChercherSommetParId(sommetDebId);
-        if (!sommetDeb) {
-            sommetDeb = Arret->ARCGet_SomDeb();
-            this->CGraphOAjouterSommet(sommetDeb);
+        CSommet<T>* pSommetDeb = this->CGraphOChercherSommetParId(uiSommetDebId);
+        if (!pSommetDeb) {
+            pSommetDeb = pArret->ARCGet_SomDeb();
+            this->CGraphOAjouterSommet(pSommetDeb);
         }
 
-        CSommet<T>* sommetFin = this->CGraphOChercherSommetParId(sommetFinId);
-        if (!sommetFin) {
-            sommetFin = Arret->ARCGet_SomA();
-            this->CGraphOAjouterSommet(sommetFin);
+        CSommet<T>* pSommetFin = this->CGraphOChercherSommetParId(uiSommetFinId);
+        if (!pSommetFin) {
+            pSommetFin = pArret->ARCGet_SomA();
+            this->CGraphOAjouterSommet(pSommetFin);
         }
 
-        this->CGraphOAjouterArc(Arret);
+        this->CGraphOAjouterArc(pArret);
 
-        CArc<T> arcInverse = CArc<T>::ARCInverserArc(*Arret);
-        this->CGraphOAjouterArc(new CArc<T>(arcInverse));
+        CArc<T> ARCInverse = CArc<T>::ARCInverserArc(*pArret);
+        this->CGraphOAjouterArc(new CArc<T>(ARCInverse));
 
     }
     catch (const CException& e) {
-        std::cerr << "Erreur lors de l'ajout d'une arete : " << e.EXCGet_Val() << std::endl;
+        cerr << "Erreur lors de l'ajout d'une arete : " << e.EXCGet_Val() << endl;
     }
 }
 
 template <typename T>
-void CGraph<T>::CGraphModifierArret(CArc<T>* ArretActuel, CArc<T>* NouvelArret) {
+void CGraph<T>::CGraphModifierArret(CArc<T>* pArretActuel, CArc<T>* pNouvelArret) {
     try {
-        if (!ArretActuel || !NouvelArret) {
+        if (!pArretActuel || !pNouvelArret) {
             throw CException(4);
         }
 
-        CGraphSupprimerArret(ArretActuel);
-        CGraphAjouterArret(NouvelArret);
+        CGraphSupprimerArret(pArretActuel);
+        CGraphAjouterArret(pNouvelArret);
 
     }
     catch (const CException& e) {
@@ -88,20 +88,20 @@ void CGraph<T>::CGraphModifierArret(CArc<T>* ArretActuel, CArc<T>* NouvelArret) 
 
 
 template <typename T>
-void CGraph<T>::CGraphSupprimerArret(CArc<T>* Arret) {
+void CGraph<T>::CGraphSupprimerArret(CArc<T>* pArret) {
     try {
-        if (!Arret) {
+        if (!pArret) {
             throw CException(4);
         }
-        unsigned int sommetDebId = Arret->ARCGet_SomDeb()->SOMGet_Id();
-        unsigned int sommetFinId = Arret->ARCGet_SomA()->SOMGet_Id();
+        unsigned int uiSommetDebId = pArret->ARCGet_SomDeb()->SOMGet_Id();
+        unsigned int uiSommetFinId = pArret->ARCGet_SomA()->SOMGet_Id();
 
-        CArc<T> arcInverse = CArc<T>::ARCInverserArc(*Arret);
+        CArc<T> ARCInverse = CArc<T>::ARCInverserArc(*pArret);
 
         auto& arcs = this->CGraphOGET_Arc();
         arcs.erase(remove_if(arcs.begin(), arcs.end(),
-            [&Arret, &arcInverse](CArc<T>* arc) {
-                return (*arc == *Arret || *arc == arcInverse);
+            [&pArret, &ARCInverse](CArc<T>* pArc) {
+                return (*pArc == *pArret || *pArc == ARCInverse);
             }),
             arcs.end());
     }
@@ -120,10 +120,10 @@ void CGraph<T>::CGraphAfficher() {
     }
     else {
         cout << "Relations entre sommets (aretes) :" << endl;
-        vector<CArc<T>*> arcsAffiches;
+        vector<CArc<T>*> pArcsAffiches;
         for (const auto& arc : this->CGraphOGET_Arc()) {
             bool dejaAffiche = false;
-            for (const auto& arcAffiche : arcsAffiches) {
+            for (const auto& arcAffiche : pArcsAffiches) {
                 if ((arcAffiche->ARCGet_SomDeb() == arc->ARCGet_SomDeb() &&
                     arcAffiche->ARCGet_SomA() == arc->ARCGet_SomA()) ||
                     (arcAffiche->ARCGet_SomDeb() == arc->ARCGet_SomA() &&
@@ -133,13 +133,13 @@ void CGraph<T>::CGraphAfficher() {
                 }
             }
             if (!dejaAffiche) {
-                CSommet<T>* sommetDebut = arc->ARCGet_SomDeb();
-                CSommet<T>* sommetFin = arc->ARCGet_SomA();
+                CSommet<T>* pSommetDebut = arc->ARCGet_SomDeb();
+                CSommet<T>* pSommetFin = arc->ARCGet_SomA();
 
-                if (sommetDebut && sommetFin) {
-                    cout << "Sommet(" << sommetDebut->SOMGet_Id() << ") <-----> Sommet("
-                        << sommetFin->SOMGet_Id() << ")" << endl;
-                    arcsAffiches.push_back(arc);
+                if (pSommetDebut && pSommetFin) {
+                    cout << "Sommet(" << pSommetDebut->SOMGet_Id() << ") <-----> Sommet("
+                        << pSommetFin->SOMGet_Id() << ")" << endl;
+                    pArcsAffiches.push_back(arc);
                 }
                 else {
                     cout << "Arete invalide (sommets manquants)." << endl;

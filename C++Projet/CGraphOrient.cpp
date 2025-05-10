@@ -431,7 +431,7 @@ CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sNomFichier) 
             cerr << "Impossible d'ouvrir le fichier." << endl;
             break;
         case 1003:
-            cerr << "Sommet introuvable lors de la création d'un arc." << endl;
+            cerr << "Sommet introuvable lors de la creation d'un arc." << endl;
             break;
         case 2001:
             cerr << "Format inValide pour le nombre de sommets (NBSommets)." << endl;
@@ -452,13 +452,13 @@ CGraphOrient<T>* CGraphOrient<T>::CGraphOLireFichier(const string& sNomFichier) 
             cerr << "Ligne inattendue dans la section Arcs." << endl;
             break;
         case 2007:
-            cerr << "Ligne inattendue en dehors des sections définies." << endl;
+            cerr << "Ligne inattendue en dehors des sections definies." << endl;
             break;
         case 2008:
-            cerr << "Le nombre de sommets ne correspond pas à la déclaration (NBSommets)." << endl;
+            cerr << "Le nombre de sommets ne correspond pas à la declaration (NBSommets)." << endl;
             break;
         case 2009:
-            cerr << "Le nombre d'arcs ne correspond pas à la déclaration (NBArcs)." << endl;
+            cerr << "Le nombre d'arcs ne correspond pas à la declaration (NBArcs)." << endl;
             break;
         default:
             cerr << "Erreur inconnue." << endl;
