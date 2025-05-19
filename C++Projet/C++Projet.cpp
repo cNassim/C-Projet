@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include "CGraphOrient.h"
+#include "CGraph.h"
 
 using namespace std;
 
@@ -30,12 +30,12 @@ void displayDetails() {
 }
 
 int main(int argc, char* argv[]) {
-    bool modecin = false;
-    try {
+    //bool modecin = false;
+    //try {
         displayHeader();
         displayDetails();
 
-        string sNomFichier;
+        /*string sNomFichier;
 
         // Leve un exception si on a plus d'un paramètre
         if (argc > 2) {
@@ -68,21 +68,16 @@ int main(int argc, char* argv[]) {
         cout << "Graphe original :" << endl;
         graphe->CGraphOAfficher();
 
-        // Étape 4 : Inverser tous les arcs du graphe
-        CGraphOrient<int>* grapheInverse = graphe->CGraphOInverse();
+        // Calcul et affichage des ensembles dominants minimaux
+        cout << "\nCalcul des ensembles dominants minimaux..." << endl;
+        graphe->CGraphCalcDomMin();
 
-        // Étape 5 : Afficher le graphe inversé
-        cout << "\nGraphe inverse :" << endl;
-        grapheInverse->CGraphOAfficher();
-
-        // Libérer la mémoire
+        // Libération de la mémoire
         delete graphe;
-        delete grapheInverse;
     }
     catch (const CException& e) {
-        // Gestion des exceptions levées par CException
         if (e.EXCGet_Val() == 1721) {
-            cerr << "Trop de parametres fournis. Un seul parametre attendu. ! Code erreur : " << e.EXCGet_Val() << endl;
+            cerr << "Trop de parametres fournis. Un seul parametre attendu ! Code erreur : " << e.EXCGet_Val() << endl;
         }
         else {
             cerr << "Une exception a ete levee : Code " << e.EXCGet_Val() << endl;
@@ -99,4 +94,36 @@ int main(int argc, char* argv[]) {
         cin.get();
     }
     return 0;
+}*/
+        cout << "\n--- Test : Calcul des ensembles dominants minimaux sur un triangle ---" << endl;
+
+        // Création de 3 sommets
+        vector<CSommet<int>*> sommets;
+        for (int i = 0; i < 3; ++i)
+            sommets.push_back(new CSommet<int>(i, {}, {}));
+
+        // Création du graphe non orienté
+        CGraph<int> graphe;
+
+        // Ajout des sommets dans le graphe (si nécessaire selon ton implémentation, sinon saute cette étape)
+        for (auto s : sommets)
+            graphe.CGraphOAjouterSommet(s); // Si tu as une méthode d'ajout de sommet
+
+        // Ajout des arêtes pour former un triangle 
+        graphe.CGraphAjouterArret(new CArc<int>(sommets[0], sommets[1]));
+        graphe.CGraphAjouterArret(new CArc<int>(sommets[1], sommets[2]));
+        graphe.CGraphAjouterArret(new CArc<int>(sommets[2], sommets[0]));
+
+        cout << "Nombre de sommets dans le graphe : " << graphe.CGraphOGET_Sommet().size() << endl;
+
+        // Affichage du graphe
+        graphe.CGraphAfficher();
+
+        // Calcul et affichage des ensembles dominants minimaux
+        graphe.CGraphCalcDomMin();
+
+        // Libération mémoire (optionnel, dépend de la gestion dans CGraph)
+        for (auto s : sommets) delete s;
+
+   return 0;
 }

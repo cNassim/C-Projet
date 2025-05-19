@@ -2,6 +2,7 @@
 #include "CGraphOrient.h"
 #include "CArc.h"
 #include <iostream>
+#include <set>
 
 using namespace std;
 
@@ -12,6 +13,9 @@ private:
     using CGraphOrient<T>::CGraphOInverse;
     using CGraphOrient<T>::CGraphOAfficher;
     using CGraphOrient<T>::CGraphOLireFichier;
+    set<set<CSommet<T>*>> GRAD_min; // Ensemble des ensembles de sommets dominants minimaux
+    unsigned int uiGRAtaille;        // Taille minimale des ensembles dominants
+
 
 // MÉTHODES
 public:
@@ -23,6 +27,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : Les attributs de CGraph sont initialisés
     /***********************************************************/
+
     CGraph();
 
     /***********************************************************
@@ -33,6 +38,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : Les attributs sont initialisés avec les valeurs fournies
     /***********************************************************/
+
     CGraph(const vector<CSommet<T>*>& sommet,const vector<CArc<T>*>& arc);
 
     /***********************************************************
@@ -43,6 +49,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : Une copie du graphe est créée
     /***********************************************************/
+
     CGraph(const CGraph<T>& graph);
 
     /***********************************************************
@@ -53,6 +60,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : Les ressources allouées sont libérées
     /***********************************************************/
+
     ~CGraph();
 
     /***********************************************************
@@ -63,6 +71,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : L'arête est ajoutée au graphe
     /***********************************************************/
+
     void CGraphAjouterArret(CArc<T>* Arret);
 
     /***********************************************************
@@ -73,6 +82,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : L'arête est modifiée dans le graphe
     /***********************************************************/
+
     void CGraphModifierArret(CArc<T>* ArretActuel, CArc<T>* NouvelArret);
 
     /***********************************************************
@@ -83,6 +93,7 @@ public:
     /* Sortie : Rien
     /* Entraîne : L'arête est supprimée du graphe
     /***********************************************************/
+
     void CGraphSupprimerArret(CArc<T>* Arret);
 
     /***********************************************************
@@ -93,5 +104,30 @@ public:
     /* Sortie : Rien
     /* Entraîne : Les informations spécifiques du graphe sont affichées
     /***********************************************************/
+
     void CGraphAfficher();
+
+    /***********************************************************
+    /* Calculer les ensembles dominants minimaux
+    /***********************************************************
+    /* Entrée : Rien
+    /* Nécessite : Le graphe doit être valide
+    /* Sortie : Rien
+    /* Entraîne : Calcule et stocke les ensembles dominants minimaux dans GRAD_min
+    /***********************************************************/
+
+    void CGraphCalcDomMin();
+
+
+private:
+    /***********************************************************
+    /* Méthode récursive pour le calcul des ensembles dominants minimaux
+    /***********************************************************
+    /* Entrée : Ds : ensemble courant de sommets dominants, S : liste des sommets restants
+    /* Nécessite : Rien
+    /* Sortie : Rien
+    /* Entraîne : Explore récursivement toutes les combinaisons pour trouver les ensembles dominants minimaux
+    /***********************************************************/
+
+    void CGraphCalcDomMinRecursive(set<CSommet<T>*> Ds, vector<CSommet<T>*> S, const vector<CSommet<T>*>& All);
 };

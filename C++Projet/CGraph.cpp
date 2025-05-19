@@ -4,6 +4,7 @@
 #include "CSommet.h"
 #include "CException.h"
 #include <vector>
+#include <limits>
 #include <iostream>
 
 using namespace std;
@@ -22,8 +23,7 @@ CGraph<T>::CGraph(const vector<CSommet<T>*>& Sommet, const vector<CArc<T>*>& Arc
 
             this->CGraphAjouterArret(currentArc);
 
-            CArc<T> ARCInverse = CArc<T>::ARCInverserArc(*currentArc);
-            this->CGraphAjouterArret(new CArc<T>(ARCInverse));
+
         }
     }
     catch (const CException& e) {
@@ -110,6 +110,94 @@ void CGraph<T>::CGraphSupprimerArret(CArc<T>* pArret) {
     }
 }
 
+template <typename T>
+void CGraph<T>::CGraphCalcDomMin() {
+    cout << "Appel de CGraphCalcDomMinRecursive" << endl;
+    GRAD_min.clear();
+    uiGRAtaille = std::numeric_limits<unsigned int>::max();
+    set<CSommet<T>*> Ds;
+    cout << "Nombre de sommets dans le graphe : " << this->CGraphOGET_Sommet().size() << endl;
+    for (auto s : this->CGraphOGET_Sommet()) {
+        cout << "Sommet id=" << s->SOMGet_Id() << endl;
+    }
+    vector<CSommet<T>*> S = this->CGraphOGET_Sommet();
+
+    // On passe la liste complète des sommets en plus
+    CGraphCalcDomMinRecursive(Ds, S, S);
+
+    cout << "Taille minimale : " << uiGRAtaille << endl;
+    cout << "Ensembles dominants de taille minimale :" << endl;
+    for (const auto& ensemble : GRAD_min) {
+        cout << "{ ";
+        for (const auto& sommet : ensemble) {
+            cout << sommet->SOMGet_Id() << " ";
+        }
+        cout << "}" << endl;
+    }
+}
+
+template <typename T>
+void CGraph<T>::CGraphCalcDomMinRecursive(set<CSommet<T>*> Ds, vector<CSommet<T>*> S, const vector<CSommet<T>*>& tous) {
+    static int profondeur = 0;
+    profondeur++;
+    cout << "Profondeur: " << profondeur << " | Ds size: " << Ds.size() << " | S size: " << S.size() << endl;
+    // Vérifier la domination sur tous les sommets
+    bool uitsCouv = true;
+    for (CSommet<T>* s : tous) {
+        bool uiCouv = false;
+        if (Ds.count(s)) {
+            uiCouv = true;
+        }
+        else {
+            for (CSommet<T>* d : Ds) {
+                // On ne considère qu'une seule direction pour éviter les doublons d'arêtes non orientées
+                unsigned int idS = s->SOMGet_Id();
+                unsigned int idD = d->SOMGet_Id();
+                unsigned int minId = std::min(idS, idD);
+                unsigned int maxId = std::max(idS, idD);
+
+                for (CArc<T>* arc : this->CGraphOGET_Arc()) {
+                    unsigned int arcDeb = arc->ARCGet_SomDeb()->SOMGet_Id();
+                    unsigned int arcFin = arc->ARCGet_SomA()->SOMGet_Id();
+                    unsigned int arcMin = std::min(arcDeb, arcFin);
+                    unsigned int arcMax = std::max(arcDeb, arcFin);
+
+                    if (arcMin == minId && arcMax == maxId) {
+                        uiCouv = true;
+                        break;
+                    }
+                }
+                if (uiCouv) break;
+            }
+        }
+        if (!uiCouv) {
+            uitsCouv = false;
+            break;
+        }
+    }
+    if (uitsCouv) {
+        if (Ds.size() < uiGRAtaille) {
+            GRAD_min.clear();
+            GRAD_min.insert(Ds);
+            uiGRAtaille = Ds.size();
+        }
+        else if (Ds.size() == uiGRAtaille) {
+            GRAD_min.insert(Ds);
+        }
+        profondeur--;
+        return;
+    }
+    for (size_t iBoucle = 0; iBoucle < S.size(); ++iBoucle) {
+        CSommet<T>* s = S[iBoucle];
+        set<CSommet<T>*> DsNv = Ds;
+        DsNv.insert(s);
+
+        vector<CSommet<T>*> SNv = S;
+        SNv.erase(SNv.begin() + iBoucle);
+
+        CGraphCalcDomMinRecursive(DsNv, SNv, tous);
+    }
+}
 
 
 template <typename T>
@@ -155,7 +243,7 @@ template class CGraph<float>;
 template class CGraph<double>;
 template class CGraph<char>;
 template class CGraph<bool>;
-template class CGraph<std::string>;
+template class CGraph<string>;
 template class CGraph<unsigned int>;
 template class CGraph<long>;
 template class CGraph<unsigned long>;
