@@ -29,101 +29,207 @@ void displayDetails() {
     cout << "+==========================================================+" << endl;
 }
 
-int main(int argc, char* argv[]) {
-    //bool modecin = false;
-    //try {
+
+void menu() {
+    cout << "\n--- MENU ---" << endl;
+    cout << "1. Créer un graphe" << endl;
+    cout << "2. Ajouter un sommet" << endl;
+    cout << "3. Ajouter un arc/arête" << endl;
+    cout << "4. Supprimer un sommet" << endl;
+    cout << "5. Supprimer un arc/arête" << endl;
+    cout << "6. Afficher le graphe" << endl;
+    cout << "7. Calculer les ensembles dominants minimaux" << endl;
+    cout << "8. Charger un graphe orienté depuis un fichier" << endl;
+    cout << "9. Quitter" << endl;
+    cout << "Votre choix : ";
+}
+
+int main() {
+    // Pointeur sur le graphe courant, pour pouvoir switcher orienté/non orienté
+    CGraphOrient<int>* graphe = nullptr;
+    CGraph<int>* grapheno = nullptr;
+    bool isOriente = false;
+    vector<CSommet<int>*> memSommets;
+	
+    displayHeader();
+    displayDetails();
+    int choix = 0;
+    while (choix != 9) {
         displayHeader();
-        displayDetails();
+        menu();
+        cin >> choix;
+        switch (choix) {
+        case 1: {
+            cout << "Type de graphe (0 = non oriente, 1 = oriente) ? ";
+            int type;
+            cin >> type;
+            isOriente = (type == 1);
 
-        /*string sNomFichier;
+            // Libère ancien graphe/sommets si besoin
+            if (graphe) { delete graphe; graphe = nullptr; }
+            if (grapheno) { delete grapheno; grapheno = nullptr; }
+            for (auto s : memSommets) delete s;
+            memSommets.clear();
 
-        // Leve un exception si on a plus d'un paramètre
-        if (argc > 2) {
-            throw CException(1721);
-        }
-
-        // Vérifier si un nom de fichier est passé en paramètre
-        if (argc == 2) {
-            sNomFichier = argv[1];
-        }
-        else {
-            modecin = true;
-            cout << "Pas de parametres detecte, passage en mode 'cin'" << endl;
-            cout << "Veuillez entrer le nom du fichier : ";
-            getline(cin, sNomFichier);
-        }
-
-        // Étape 2 : Lire le fichier et créer le graphe associé
-        CGraphOrient<int>* graphe = CGraphOrient<int>::CGraphOLireFichier(sNomFichier);
-        if (!graphe) {
-            cerr << "Erreur : Impossible de creer le graphe a partir du fichier." << endl;
-            if (modecin) {
-                cout << "\nAppuyez sur entrer pour fermer le programme..." << endl;
-                cin.get();
+            if (isOriente) {
+                graphe = new CGraphOrient<int>();
             }
-            return 1;
+            else {
+                grapheno = new CGraph<int>();
+            }
+            system("cls");
+            cout << "Graphe vide cree !" << endl;
+            break;
         }
+        case 2: {
+            // Ajouter un sommet
+            int id;
+            cout << "ID du sommet a ajouter : "; cin >> id;
+            auto s = new CSommet<int>(id, {}, {});
+            memSommets.push_back(s);
+            if (isOriente) {
+                if (graphe) {
+                    graphe->CGraphOAjouterSommet(s);
+                }
+            }
+            else {
+                if (grapheno) {
+                    grapheno->CGraphOAjouterSommet(s);
+                }
+			}
+            system("cls");
+            cout << "Sommet ajoute." << endl;
+            break;
+        }
+        case 3: {
+            // Ajouter un arc/arête
+            int deb, fin;
+            cout << "Sommet de "; cin >> deb;
+            cout << (isOriente ? " a " : " et "); cin >> fin;
+            CSommet<int>* sdeb = nullptr;
+            CSommet<int>* sfin = nullptr;
+            for (auto s : memSommets) {
+                if (s->SOMGet_Id() == deb) sdeb = s;
+                if (s->SOMGet_Id() == fin) sfin = s;
+            }
+            if (sdeb && sfin) {
+                if (isOriente){
+                    graphe->CGraphOAjouterArc(new CArc<int>(sdeb, sfin));
+                    system("cls");
+                    cout << " Arc ajoute." << endl;
+                }
+				else{
+                    grapheno->CGraphAjouterArret(new CArc<int>(sdeb, sfin));
+                    system("cls");
+                    cout << " Arête ajoutee." << endl;
+				}
+            }
+            else {
+                system("cls");
+                cout << "Sommet(s) non trouve(s) !" << endl;
+            }
+            break;
+        }
+        case 4: {
+            // Supprimer un sommet
+            int id;
+            cout << "ID du sommet a supprimer : "; cin >> id;
+            if (isOriente) {
+                graphe->CGraphOSupprimerSommet(id);
+                system("cls");
+                cout << "Sommet supprime !" << endl;
+            }
+            else {
+				grapheno->CGraphOSupprimerSommet(id);
+                system("cls");
+                cout << "Sommet supprime !" << endl;
+            }
+            break;
+        }
+        case 5: {
+            // Supprimer un arc/arête
+            int deb, fin;
+            cout << "Sommet de "; cin >> deb;
+            cout << (isOriente ? " a " : " et "); cin >> fin;
+            // Chercher et supprimer l'arc/arête
+            // (Parcours la liste des arcs/arêtes et supprime le bon)
+            cout << "(Suppression a implementer selon ta lib !)" << endl;
+            break;
+        }
+        case 6: {
+            if (isOriente)
+            {
+                if (graphe) graphe->CGraphOAfficher();
+                else {
+                    system("cls");
+                    cout << "Aucun graphe en memoire !" << endl;
+                }
 
-        // Étape 3 : Afficher le graphe
-        cout << "Graphe original :" << endl;
-        graphe->CGraphOAfficher();
-
-        // Calcul et affichage des ensembles dominants minimaux
-        cout << "\nCalcul des ensembles dominants minimaux..." << endl;
-        graphe->CGraphCalcDomMin();
-
-        // Libération de la mémoire
-        delete graphe;
+            }
+            else
+            {
+                if(grapheno) grapheno->CGraphAfficher();
+                else {
+                    system("cls");
+                    cout << "Aucun graphe en memoire !" << endl;
+                }
+            }
+            break;
+        }
+        case 7: {
+            if (isOriente)
+            {
+                system("cls");
+                cout << "Operation impossible !!" << endl;
+            }
+            else {
+                if (grapheno) {
+                    system("cls");
+                    grapheno->CGraphCalcDomMin();
+                }
+                else {
+                    system("cls");
+                    cout << "Aucun graphe en memoire !" << endl; 
+                }
+            }
+            break;
+        }
+        case 8: {
+            if (isOriente)
+            {
+                // Charger graphe orienté depuis fichier
+                string filename;
+                cout << "Nom du fichier : ";
+                cin >> filename;
+                if (graphe) { delete graphe; graphe = nullptr; }
+                for (auto s : memSommets) delete s;
+                memSommets.clear();
+                graphe = CGraphOrient<int>::CGraphOLireFichier(filename);
+                if (!graphe) {
+                    system("cls");
+                    cout << "Erreur de chargement !" << endl;
+                }
+                else {
+                    system("cls");
+                    cout << "Graphe chargé !" << endl;
+                }
+                break;
+            }
+            else {
+                system("cls");
+                cout << "Opération impossible !!" << endl;
+            }
+        }
+        case 9:
+            cout << "Au revoir !" << endl;
+            break;
+        default:
+            cout << "Choix invalide !" << endl;
+        }
     }
-    catch (const CException& e) {
-        if (e.EXCGet_Val() == 1721) {
-            cerr << "Trop de parametres fournis. Un seul parametre attendu ! Code erreur : " << e.EXCGet_Val() << endl;
-        }
-        else {
-            cerr << "Une exception a ete levee : Code " << e.EXCGet_Val() << endl;
-        }
-        if (modecin) {
-            cout << "\nAppuyez sur entrer pour fermer le programme..." << endl;
-            cin.get();
-        }
-        return 1;
-    }
 
-    if (modecin) {
-        cout << "\nAppuyez sur entrer pour fermer le programme..." << endl;
-        cin.get();
-    }
+    if (graphe) delete graphe;
+	if (grapheno) delete grapheno;
+    for (auto s : memSommets) delete s;
     return 0;
-}*/
-        cout << "\n--- Test : Calcul des ensembles dominants minimaux sur un triangle ---" << endl;
-
-        // Création de 3 sommets
-        vector<CSommet<int>*> sommets;
-        for (int i = 0; i < 3; ++i)
-            sommets.push_back(new CSommet<int>(i, {}, {}));
-
-        // Création du graphe non orienté
-        CGraph<int> graphe;
-
-        // Ajout des sommets dans le graphe (si nécessaire selon ton implémentation, sinon saute cette étape)
-        for (auto s : sommets)
-            graphe.CGraphOAjouterSommet(s); // Si tu as une méthode d'ajout de sommet
-
-        // Ajout des arêtes pour former un triangle 
-        graphe.CGraphAjouterArret(new CArc<int>(sommets[0], sommets[1]));
-        graphe.CGraphAjouterArret(new CArc<int>(sommets[1], sommets[2]));
-        graphe.CGraphAjouterArret(new CArc<int>(sommets[2], sommets[0]));
-
-        cout << "Nombre de sommets dans le graphe : " << graphe.CGraphOGET_Sommet().size() << endl;
-
-        // Affichage du graphe
-        graphe.CGraphAfficher();
-
-        // Calcul et affichage des ensembles dominants minimaux
-        graphe.CGraphCalcDomMin();
-
-        // Libération mémoire (optionnel, dépend de la gestion dans CGraph)
-        for (auto s : sommets) delete s;
-
-   return 0;
 }

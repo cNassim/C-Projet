@@ -112,14 +112,9 @@ void CGraph<T>::CGraphSupprimerArret(CArc<T>* pArret) {
 
 template <typename T>
 void CGraph<T>::CGraphCalcDomMin() {
-    cout << "Appel de CGraphCalcDomMinRecursive" << endl;
     GRAD_min.clear();
-    uiGRAtaille = std::numeric_limits<unsigned int>::max();
+    uiGRAtaille = numeric_limits<unsigned int>::max();
     set<CSommet<T>*> Ds;
-    cout << "Nombre de sommets dans le graphe : " << this->CGraphOGET_Sommet().size() << endl;
-    for (auto s : this->CGraphOGET_Sommet()) {
-        cout << "Sommet id=" << s->SOMGet_Id() << endl;
-    }
     vector<CSommet<T>*> S = this->CGraphOGET_Sommet();
 
     // On passe la liste complète des sommets en plus
@@ -138,9 +133,7 @@ void CGraph<T>::CGraphCalcDomMin() {
 
 template <typename T>
 void CGraph<T>::CGraphCalcDomMinRecursive(set<CSommet<T>*> Ds, vector<CSommet<T>*> S, const vector<CSommet<T>*>& tous) {
-    static int profondeur = 0;
-    profondeur++;
-    cout << "Profondeur: " << profondeur << " | Ds size: " << Ds.size() << " | S size: " << S.size() << endl;
+  
     // Vérifier la domination sur tous les sommets
     bool uitsCouv = true;
     for (CSommet<T>* s : tous) {
@@ -184,7 +177,6 @@ void CGraph<T>::CGraphCalcDomMinRecursive(set<CSommet<T>*> Ds, vector<CSommet<T>
         else if (Ds.size() == uiGRAtaille) {
             GRAD_min.insert(Ds);
         }
-        profondeur--;
         return;
     }
     for (size_t iBoucle = 0; iBoucle < S.size(); ++iBoucle) {
