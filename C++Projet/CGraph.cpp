@@ -112,22 +112,35 @@ void CGraph<T>::CGraphSupprimerArret(CArc<T>* pArret) {
 
 template <typename T>
 void CGraph<T>::CGraphCalcDomMin() {
-    GRAD_min.clear();
-    uiGRAtaille = numeric_limits<unsigned int>::max();
-    set<CSommet<T>*> Ds;
-    vector<CSommet<T>*> S = this->CGraphOGET_Sommet();
-
-    // On passe la liste complète des sommets en plus
-    CGraphCalcDomMinRecursive(Ds, S, S);
-
-    cout << "Taille minimale : " << uiGRAtaille << endl;
-    cout << "Ensembles dominants de taille minimale :" << endl;
-    for (const auto& ensemble : GRAD_min) {
-        cout << "{ ";
-        for (const auto& sommet : ensemble) {
-            cout << sommet->SOMGet_Id() << " ";
+    try {
+        if (this->CGraphOGET_Arc().empty()) {
+			throw CException(833);
         }
-        cout << "}" << endl;
+        GRAD_min.clear();
+        uiGRAtaille = numeric_limits<unsigned int>::max();
+        set<CSommet<T>*> Ds;
+        vector<CSommet<T>*> S = this->CGraphOGET_Sommet();
+
+        // On passe la liste complète des sommets en plus
+        CGraphCalcDomMinRecursive(Ds, S, S);
+
+        cout << "Taille minimale : " << uiGRAtaille << endl;
+        cout << "Ensembles dominants de taille minimale :" << endl;
+        for (const auto& ensemble : GRAD_min) {
+            cout << "{ ";
+            for (const auto& sommet : ensemble) {
+                cout << sommet->SOMGet_Id() << " ";
+            }
+            cout << "}" << endl;
+        }
+    }
+    catch (const CException& e) {
+        if (e.EXCGet_Val() == 833) {
+            cerr << "Le graphe ne contient aucune arete." << endl;
+        }
+        else {
+            cerr << "Erreur lors du calcul de l'ensemble dominant : " << e.EXCGet_Val() << endl;
+		}
     }
 }
 
@@ -195,9 +208,9 @@ void CGraph<T>::CGraphCalcDomMinRecursive(set<CSommet<T>*> Ds, vector<CSommet<T>
 template <typename T>
 void CGraph<T>::CGraphAfficher() {
     cout << "=== Affichage du Graphe Non Oriente ===" << endl;
-    if (this->CGraphOGET_Arc().empty()) {
-        cout << "Le graphe ne contient aucune arete." << endl;
-    }
+        if (this->CGraphOGET_Arc().empty()) {
+            cout << "Le graphe ne contient aucune arete." << endl;
+        }
     else {
         cout << "Relations entre sommets (aretes) :" << endl;
         vector<CArc<T>*> pArcsAffiches;
